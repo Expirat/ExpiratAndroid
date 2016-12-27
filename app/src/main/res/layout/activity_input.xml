@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <android.support.design.widget.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?actionBarSize"
+                android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v4.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingTop="16dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:orientation="vertical">
+
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/header_product_name"
+                    android:paddingLeft="4dp"
+                    android:paddingRight="4dp"
+                    style="@style/TextHeader"/>
+
+            <EditText
+                    android:id="@+id/name_input"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/hint_product_name"
+                    android:maxLines="1"
+                    android:textSize="22sp"
+                    android:imeOptions="actionDone"
+                    android:inputType="textCapWords"
+                    android:fontFamily="sans-serif-light"
+                    android:layout_marginBottom="16dp"/>
+
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="4dp"
+                    android:paddingRight="4dp"
+                    android:text="@string/header_buy_date"
+                    style="@style/TextHeader"/>
+
+            <TextView
+                    android:id="@+id/buy_date_input"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="4dp"
+                    android:paddingRight="4dp"
+                    android:textSize="22sp"
+                    android:fontFamily="sans-serif-light"
+                    android:layout_marginBottom="18dp"
+                    tools:text="26-12-2016"/>
+
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="4dp"
+                    android:paddingRight="4dp"
+                    android:text="@string/header_expired_date"
+                    style="@style/TextHeader"/>
+
+            <TextView
+                    android:id="@+id/expired_date_input"
+                    android:layout_width="match_parent"
+                    android:paddingLeft="4dp"
+                    android:paddingRight="4dp"
+                    android:layout_height="48dp"
+                    android:gravity="center_vertical"
+                    android:textSize="22sp"
+                    android:fontFamily="sans-serif-light"
+                    android:layout_marginBottom="18dp"
+                    tools:text="26-12-2016"/>
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+
+    <TextView
+            android:id="@+id/save_button"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:text="@string/label_btn_save"
+            android:textSize="18sp"
+            android:textAllCaps="true"
+            android:layout_gravity="bottom"
+            android:textStyle="bold"
+            android:background="@color/colorAccent"
+            android:textColor="@android:color/white"
+            android:gravity="center"/>
+
+</android.support.design.widget.CoordinatorLayout>

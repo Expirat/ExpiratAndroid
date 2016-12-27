@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          xmlns:tools="http://schemas.android.com/tools"
+          package="com.expirate.expirat">
+
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+
+    <application
+            android:allowBackup="false"
+            android:icon="@mipmap/ic_launcher"
+            android:label="@string/app_name"
+            android:supportsRtl="true"
+            android:theme="@style/AppTheme"
+            android:name=".App"
+            tools:ignore="AllowBackup">
+
+        <service
+                android:name="com.evernote.android.job.v21.PlatformJobService"
+                android:exported="false"
+                android:permission="android.permission.BIND_JOB_SERVICE"/>
+
+        <service
+                android:name="com.evernote.android.job.v14.PlatformAlarmService"
+                android:exported="false"/>
+
+        <receiver
+                android:name="com.evernote.android.job.v14.PlatformAlarmReceiver"
+                android:exported="false">
+            <intent-filter>
+                <!-- Keep the filter for legacy intents -->
+                <action android:name="com.evernote.android.job.v14.RUN_JOB"/>
+                <action android:name="net.vrallev.android.job.v14.RUN_JOB"/>
+            </intent-filter>
+        </receiver>
+
+        <receiver
+                android:name="com.evernote.android.job.JobBootReceiver"
+                android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+            </intent-filter>
+        </receiver>
+
+        <activity
+                android:name=".ui.home.MainActivity"
+                android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+
+        <activity
+                android:name=".ui.input.InputActivity"
+                android:label="Manage"
+                android:screenOrientation="portrait"/>
+
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="bd42c2ee6d56c610c407ff4e6680f54d54537400" />
+    </application>
+
+    <uses-permission android:name="android.permission.INTERNET" />
+</manifest>

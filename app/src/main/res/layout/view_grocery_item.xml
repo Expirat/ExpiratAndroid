@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="110dp"
+        app:cardUseCompatPadding="true"
+        app:cardPreventCornerOverlap="false">
+
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <TextView
+                android:id="@+id/date_diff"
+                android:layout_width="90dp"
+                android:layout_height="match_parent"
+                android:padding="8dp"
+                android:gravity="center"
+                android:layout_centerVertical="true"
+                android:textSize="16sp"
+                android:background="@color/green500"
+                android:textColor="@android:color/white"
+                tools:text="1365\ndays left"/>
+
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/date_diff"
+                android:layout_toEndOf="@id/date_diff">
+
+            <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                <ImageView
+                        android:id="@+id/more_action"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="8dp"
+                        android:layout_marginEnd="8dp"
+                        app:srcCompat="@drawable/ic_more_vert"
+                        android:contentDescription="@string/image_description_action_more"/>
+
+                <TextView
+                        android:id="@+id/name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="24sp"
+                        android:layout_toLeftOf="@id/more_action"
+                        android:layout_toStartOf="@id/more_action"
+                        android:padding="8dp"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        tools:text="Keju"/>
+            </RelativeLayout>
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                <TextView
+                        android:id="@+id/buy_date"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:padding="8dp"
+                        tools:text="Buy Date\n15-12-2016"/>
+
+                <TextView
+                        android:id="@+id/expired_date"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:padding="8dp"
+                        tools:text="Expired Date\n20-12-2016"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>

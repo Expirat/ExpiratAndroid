@@ -1,0 +1,28 @@
+<resources>
+
+    <style name="TextHeader">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:fontFamily">sans-serif-condensed</item>
+    </style>
+
+    <style name="DaysLeftTextAppearance">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">36sp</item>
+        <item name="android:fontFamily">sans-serif-condensed</item>
+    </style>
+
+    <style name="LabelDaysLeftTextAppearance" parent="LabelTextAppearance">
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="LabelTextAppearance">
+        <item name="android:textSize">12sp</item>
+        <item name="android:fontFamily">sans-serif-condensed</item>
+    </style>
+
+    <style name="DateTextAppearance">
+        <item name="android:textSize">14sp</item>
+    </style>
+</resources>

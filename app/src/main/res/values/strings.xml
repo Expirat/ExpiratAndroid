@@ -1,0 +1,28 @@
+<resources>
+    <string name="app_name" translatable="false">Expirat</string>
+
+    <string name="hint_product_name">Product Name</string>
+
+    <string name="header_product_name">Product Name</string>
+    <string name="header_buy_date">Buy Date</string>
+    <string name="header_expired_date">Expired Date</string>
+
+    <string name="label_btn_save">Save</string>
+
+    <string name="error_msg_buy_date_same_as_expired_date">Oops, it\'s looks like this item is almost expired.</string>
+    <string name="error_msg_buy_date_bigger_than_expired_date">Hmm, this item is already expired.</string>
+    <string name="error_msg_name_empty">Oops, this field cannot be empty!</string>
+    <string name="error_msg_data_not_found">Data not found.</string>
+
+    <string name="msg_data_saved">Data saved.</string>
+
+    <string name="format_label_days_left">%o\ndays left</string>
+    <string name="format_label_year_left">%o\nyear left</string>
+    <string name="format_label_buy_date">Buy Date\n%s</string>
+    <string name="format_label_expired_date">Expired Date\n%s</string>
+    <string name="image_description_empty_list" translatable="false">Image empty list</string>
+    <string name="message_empty_list">You don\'t have any grocery.\nAdd new one here.</string>
+    <string name="title_action_delete" translatable="false">Delete</string>
+    <string name="image_description_action_more" translatable="false">Action more</string>
+
+</resources>

@@ -21,7 +21,7 @@ repositories {
 apply plugin: 'com.neenbedankt.android-apt'
 apply plugin: 'me.tatarka.retrolambda'
 
-def version = [major: 1, minor: 0, patch: 1, build: 0]
+def version = [major: 1, minor: 0, patch: 2, build: 0]
 def verCode = version.major * 21500 + version.minor * 1000 + version.patch * 100 + version.build
 def verName = "${version.major}.${version.minor}.${version.patch}"
 def gitSha = 'git rev-parse --short HEAD'.execute([], project.rootDir).text.trim()

@@ -173,6 +173,7 @@ public class LocalGroceriesData implements GroceriesDataSource {
                 .filter(groceriesItems -> {
 
                     for (GroceriesItem groceriesItem : groceriesItems) {
+
                         long diff = (groceriesItem.expiredDate() * 1000)
                                 - System.currentTimeMillis();
 
@@ -183,7 +184,7 @@ public class LocalGroceriesData implements GroceriesDataSource {
                         }
                     }
 
-                    return true;
+                    return groceriesItems.size() > 0;
                 });
     }
 }

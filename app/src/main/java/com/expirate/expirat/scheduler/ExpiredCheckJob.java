@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 
+import com.crashlytics.android.Crashlytics;
 import com.evernote.android.job.Job;
 import com.evernote.android.job.JobRequest;
 import com.expirate.expirat.R;
@@ -58,7 +59,7 @@ public class ExpiredCheckJob extends Job {
                                 return;
                             }
 
-                            for (GroceriesItem item: groceriesItems) {
+                            for (GroceriesItem item : groceriesItems) {
 
                                 Intent intent = new Intent(getContext(), MainActivity.class);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -82,8 +83,7 @@ public class ExpiredCheckJob extends Job {
                                         .notify(new Random().nextInt(), notification);
                             }
 
-
-                        });
+                        }, Crashlytics::logException);
 
                 SystemClock.sleep(10_000L);
                 countDownLatch.countDown();

@@ -21,9 +21,12 @@ public final class StringStyleUtils {
         String[] temp = normalText.split("\n");
 
         Spannable spannable = new SpannableString(normalText);
-        spannable.setSpan(dayLeftSpan, 0, temp[0].length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        spannable.setSpan(labelDayLeftSpan, temp[0].length() + 1, normalText.length(),
-                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        if (temp.length > 2) {
+            spannable.setSpan(dayLeftSpan, 0, temp[0].length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            spannable.setSpan(labelDayLeftSpan, temp[0].length() + 1, normalText.length(),
+                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
 
         return spannable;
     }

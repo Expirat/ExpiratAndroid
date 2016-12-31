@@ -93,22 +93,23 @@ public class GroceriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             nameView.setText(name);
 
             long diff = (expiredDate * 1000) - System.currentTimeMillis();
-            long dayDiff = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS) + 1;
+            long dayDiff = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
 
             String stringDiff = String.format(itemView.getResources()
                     .getString(R.string.format_label_days_left), dayDiff);
 
-            int color;
-
-            if (dayDiff < 0) {
-                color = ContextCompat.getColor(itemView.getContext(), android.R.color.darker_gray);
-            } else {
-                color = colorRange[((int) dayDiff-1) % colorRange.length];
-            }
-
             if (dayDiff > 365) {
                 stringDiff = String.format(itemView.getResources()
                         .getString(R.string.format_label_year_left), dayDiff / 365);
+            }
+
+            int color;
+
+            try {
+                color = colorRange[((int) dayDiff - 1) % colorRange.length];
+            } catch (ArrayIndexOutOfBoundsException e) {
+                color = ContextCompat.getColor(itemView.getContext(), android.R.color.darker_gray);
+                stringDiff = "Expired";
             }
 
 

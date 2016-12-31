@@ -13,6 +13,7 @@ import com.expirate.expirat.services.response.GroceriesItem;
 import com.squareup.sqlbrite.BriteDatabase;
 import com.squareup.sqlbrite.SqlBrite;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -51,7 +52,8 @@ public class LocalGroceriesData implements GroceriesDataSource {
     }
 
     private GroceriesItem getGroceriesList(Cursor cursor) {
-        long id = cursor.getLong(cursor.getColumnIndexOrThrow(GroceriesContract.Groceries._ID));
+        long id = cursor.getLong(cursor.getColumnIndexOrThrow(
+                GroceriesContract.Groceries._ID));
         String name = cursor.getString(cursor.getColumnIndexOrThrow(
                 GroceriesContract.Groceries.COLUMN_NAME_NAME));
         long buyDate = cursor.getLong(cursor.getColumnIndexOrThrow(
@@ -172,6 +174,9 @@ public class LocalGroceriesData implements GroceriesDataSource {
         return getGroceriesList()
                 .filter(groceriesItems -> {
 
+                    List<GroceriesItem> items = new ArrayList<>();
+                    items.addAll(groceriesItems);
+
                     for (GroceriesItem groceriesItem : groceriesItems) {
 
                         long diff = (groceriesItem.expiredDate() * 1000)
@@ -180,11 +185,11 @@ public class LocalGroceriesData implements GroceriesDataSource {
                         long dayDiff = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS) + 1;
 
                         if (dayDiff > 10) {
-                            groceriesItems.remove(groceriesItem);
+                            items.remove(groceriesItem);
                         }
                     }
 
-                    return groceriesItems.size() > 0;
+                    return items.size() > 0;
                 });
     }
 }

@@ -1,5 +1,6 @@
 package com.expirate.expirat.ui.home;
 
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
@@ -97,12 +98,19 @@ public class GroceriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             String stringDiff = String.format(itemView.getResources()
                     .getString(R.string.format_label_days_left), dayDiff);
 
+            int color;
+
+            if (dayDiff < 0) {
+                color = ContextCompat.getColor(itemView.getContext(), android.R.color.darker_gray);
+            } else {
+                color = colorRange[((int) dayDiff-1) % colorRange.length];
+            }
+
             if (dayDiff > 365) {
                 stringDiff = String.format(itemView.getResources()
                         .getString(R.string.format_label_year_left), dayDiff / 365);
             }
 
-            int color = colorRange[((int) dayDiff-1) % colorRange.length];
 
             dateDiffView.setText(StringStyleUtils
                     .dayLeftTextAppearance(itemView.getContext(), stringDiff));

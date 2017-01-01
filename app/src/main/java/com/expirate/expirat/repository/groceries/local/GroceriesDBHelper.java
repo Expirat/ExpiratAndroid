@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.expirate.expirat.model.GroceriesContract;
+import com.expirate.expirat.model.TypesContract;
 import com.expirate.expirat.utils.Constant;
 
 public class GroceriesDBHelper extends SQLiteOpenHelper {
@@ -17,12 +18,18 @@ public class GroceriesDBHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(GroceriesContract.Groceries.CREATE_QUERY);
+        db.execSQL(TypesContract.Types.CREATE_QUERY);
+        db.execSQL(TypesContract.Types.INSERT_DEFAULT_QUERY);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL(GroceriesContract.Groceries.DROP_QUERY);
 
-        onCreate(db);
+        if (newVersion == 2) {
+            db.execSQL(GroceriesContract.Groceries.ALTER_TYPE_ID_QUERY);
+            db.execSQL(TypesContract.Types.CREATE_QUERY);
+            db.execSQL(TypesContract.Types.INSERT_DEFAULT_QUERY);
+        }
+
     }
 }

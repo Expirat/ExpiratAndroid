@@ -19,6 +19,7 @@ public class GroceriesContract {
         public static String COLUMN_NAME_EXPIRE_DATE = "expired_date";
         public static String COLUMN_NAME_CREATED_DATE = "created_date";
         public static String COLUMN_NAME_MODIFIED_DATE = "modified_date";
+        public static String COLUMN_NAME_TYPE_ID = "type_id";
 
         public static String CREATE_QUERY =
                 "CREATE TABLE " + TABLE_NAME + "("
@@ -28,8 +29,12 @@ public class GroceriesContract {
                         + COLUMN_NAME_BUY_DATE + TYPE_INTEGER + COMMA_SEPARATED
                         + COLUMN_NAME_EXPIRE_DATE + TYPE_INTEGER + COMMA_SEPARATED
                         + COLUMN_NAME_CREATED_DATE + TYPE_INTEGER + COMMA_SEPARATED
+                        + COLUMN_NAME_TYPE_ID + TYPE_INTEGER + COMMA_SEPARATED
                         + COLUMN_NAME_MODIFIED_DATE + TYPE_INTEGER + ")";
 
         public static String DROP_QUERY = "DROP TABLE " + TABLE_NAME;
+
+        public static String ALTER_TYPE_ID_QUERY = "ALTER TABLE " + TABLE_NAME
+                + " ADD COLUMN " + COLUMN_NAME_TYPE_ID + TYPE_INTEGER + " DEFAULT 1";
     }
 }

@@ -1,4 +1,4 @@
-package com.expirate.expirat.ui.home;
+package com.expirate.expirat.ui.group;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,7 +14,7 @@ import android.view.View;
 
 import com.expirate.expirat.R;
 import com.expirate.expirat.repository.groceries.GroceriesRepository;
-import com.expirate.expirat.repository.groceries.local.LocalGroceriesData;
+import com.expirate.expirat.repository.groceries.local.LocalGroceriesDataSource;
 import com.expirate.expirat.scheduler.ExpiredCheckJob;
 import com.expirate.expirat.services.response.GroceriesItem;
 import com.expirate.expirat.ui.BaseActiviy;
@@ -50,7 +50,7 @@ public class MainActivity extends BaseActiviy implements MainContract.View,
         // Schedulling job to check almost expired grocery, once a day
         ExpiredCheckJob.scheduleJob();
 
-        new MainPresenter(new GroceriesRepository(LocalGroceriesData.newInstance(this)), this);
+        new MainPresenter(new GroceriesRepository(LocalGroceriesDataSource.newInstance(this)), this);
 
         setupToolbar(toolbar, null, false);
 

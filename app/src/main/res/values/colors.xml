@@ -17,4 +17,20 @@
         <item>@color/lime500</item>
         <item>@color/green500</item>
     </integer-array>
+
+    <color name="spray">#80DEEA</color>
+    <color name="malibu">#90CAF9</color>
+    <color name="froly">#F06292</color>
+    <color name="wattle">#D4E157</color>
+    <color name="mustard">#FFD54F</color>
+    <color name="salmon">#FF8A65</color>
+
+    <integer-array name="group_colors">
+        <item>@color/spray</item>
+        <item>@color/malibu</item>
+        <item>@color/froly</item>
+        <item>@color/wattle</item>
+        <item>@color/mustard</item>
+        <item>@color/salmon</item>
+    </integer-array>
 </resources>

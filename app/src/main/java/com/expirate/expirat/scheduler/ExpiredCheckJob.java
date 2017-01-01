@@ -13,9 +13,9 @@ import com.evernote.android.job.Job;
 import com.evernote.android.job.JobRequest;
 import com.expirate.expirat.R;
 import com.expirate.expirat.repository.groceries.GroceriesRepository;
-import com.expirate.expirat.repository.groceries.local.LocalGroceriesData;
+import com.expirate.expirat.repository.groceries.local.LocalGroceriesDataSource;
 import com.expirate.expirat.services.response.GroceriesItem;
-import com.expirate.expirat.ui.home.MainActivity;
+import com.expirate.expirat.ui.group.MainActivity;
 
 import java.util.Random;
 import java.util.concurrent.CountDownLatch;
@@ -48,7 +48,7 @@ public class ExpiredCheckJob extends Job {
             public void run() {
 
                 GroceriesRepository repository = new GroceriesRepository(
-                        LocalGroceriesData.newInstance(getContext())
+                        LocalGroceriesDataSource.newInstance(getContext())
                 );
 
                 repository.getAlmostExpiredGroceriesList()

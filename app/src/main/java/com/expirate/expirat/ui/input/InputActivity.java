@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 import com.expirate.expirat.R;
 import com.expirate.expirat.repository.groceries.GroceriesRepository;
-import com.expirate.expirat.repository.groceries.local.LocalGroceriesData;
+import com.expirate.expirat.repository.groceries.local.LocalGroceriesDataSource;
 import com.expirate.expirat.services.response.GroceriesItem;
 import com.expirate.expirat.ui.BaseActiviy;
 import com.expirate.expirat.utils.Constant;
@@ -62,7 +62,7 @@ public class InputActivity extends BaseActiviy implements InputContract.View,
         ButterKnife.bind(this);
 
         new InputPresenter(
-                new GroceriesRepository(LocalGroceriesData.newInstance(this)),
+                new GroceriesRepository(LocalGroceriesDataSource.newInstance(this)),
                 this);
 
         setupToolbar(toolbar, null, true);

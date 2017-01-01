@@ -1,4 +1,4 @@
-package com.expirate.expirat.ui.home;
+package com.expirate.expirat.ui.group;
 
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
@@ -10,12 +10,12 @@ import android.widget.TextView;
 import com.expirate.expirat.R;
 import com.expirate.expirat.services.response.GroceriesItem;
 import com.expirate.expirat.ui.BaseHolder;
+import com.expirate.expirat.utils.DateUtils;
 import com.expirate.expirat.utils.StringStyleUtils;
 import com.expirate.expirat.utils.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -92,8 +92,7 @@ public class GroceriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         public void bind(String name, long buyDate, long expiredDate) {
             nameView.setText(name);
 
-            long diff = (expiredDate * 1000) - System.currentTimeMillis();
-            long dayDiff = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+            int dayDiff = DateUtils.dayDiff(expiredDate, (System.currentTimeMillis() / 1000L));
 
             String stringDiff = String.format(itemView.getResources()
                     .getString(R.string.format_label_days_left), dayDiff);

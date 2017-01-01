@@ -26,4 +26,12 @@ public final class StringUtils {
         int dayOfMonth = now.get(Calendar.DAY_OF_MONTH);
         return String.format(Locale.getDefault(), "%d-%d-%d", dayOfMonth, monthOfYear+1, year);
     }
+
+    public static String getFirstCharacterEachWord(String fullText) {
+        StringBuilder sb = new StringBuilder();
+        for (String text : fullText.split(" ")) {
+            sb.append(text.charAt(0));
+        }
+        return sb.toString();
+    }
 }

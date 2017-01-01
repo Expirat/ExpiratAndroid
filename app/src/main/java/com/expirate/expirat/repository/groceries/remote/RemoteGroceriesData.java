@@ -1,7 +1,9 @@
 package com.expirate.expirat.repository.groceries.remote;
 
 import com.expirate.expirat.repository.GroceriesDataSource;
+import com.expirate.expirat.services.response.Dashboards;
 import com.expirate.expirat.services.response.GroceriesItem;
+import com.expirate.expirat.services.response.TypesItem;
 
 import java.util.List;
 
@@ -41,6 +43,16 @@ public class RemoteGroceriesData implements GroceriesDataSource {
 
     @Override
     public Observable<List<GroceriesItem>> getAlmostExpiredGroceriesList() {
+        return null;
+    }
+
+    @Override
+    public Observable<List<TypesItem>> getTypes() {
+        return null;
+    }
+
+    @Override
+    public Observable<Dashboards> getDashboadInfo() {
         return null;
     }
 }

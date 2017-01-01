@@ -8,14 +8,17 @@ import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
 import com.expirate.expirat.model.GroceriesContract;
+import com.expirate.expirat.model.TypesContract;
 import com.expirate.expirat.repository.GroceriesDataSource;
+import com.expirate.expirat.services.response.Dashboards;
 import com.expirate.expirat.services.response.GroceriesItem;
+import com.expirate.expirat.services.response.TypesItem;
+import com.expirate.expirat.utils.DateUtils;
 import com.squareup.sqlbrite.BriteDatabase;
 import com.squareup.sqlbrite.SqlBrite;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import rx.Observable;
 import rx.functions.Func1;
@@ -24,13 +27,13 @@ import rx.schedulers.Schedulers;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 
-public class LocalGroceriesData implements GroceriesDataSource {
+public class LocalGroceriesDataSource implements GroceriesDataSource {
 
-    private static LocalGroceriesData INSTANCE;
+    private static LocalGroceriesDataSource INSTANCE;
 
-    public static LocalGroceriesData newInstance(Context context) {
+    public static LocalGroceriesDataSource newInstance(Context context) {
         if (INSTANCE == null) {
-            INSTANCE = new LocalGroceriesData(context);
+            INSTANCE = new LocalGroceriesDataSource(context);
         }
         return INSTANCE;
     }
@@ -41,7 +44,10 @@ public class LocalGroceriesData implements GroceriesDataSource {
     @NonNull
     private Func1<Cursor, GroceriesItem> taskMapperCursorToListGroceries;
 
-    private LocalGroceriesData(Context context) {
+    @NonNull
+    private Func1<Cursor, TypesItem> taskMapperCursorToListTypes;
+
+    private LocalGroceriesDataSource(Context context) {
         checkNotNull(context, "Context cannot be null");
 
         GroceriesDBHelper groceriesDBHelper = new GroceriesDBHelper(context);
@@ -49,6 +55,14 @@ public class LocalGroceriesData implements GroceriesDataSource {
         databaseHelper = sqlBrite.wrapDatabaseHelper(groceriesDBHelper, Schedulers.io());
 
         taskMapperCursorToListGroceries = this::getGroceriesList;
+        taskMapperCursorToListTypes = this::getTypesList;
+    }
+
+    private TypesItem getTypesList(Cursor cursor) {
+        long id = cursor.getLong(cursor.getColumnIndexOrThrow(TypesContract.Types._ID));
+        String typesName = cursor.getString(
+                cursor.getColumnIndexOrThrow(TypesContract.Types.COLUMN_NAME_TYPES_NAME));
+        return TypesItem.create(id, typesName);
     }
 
     private GroceriesItem getGroceriesList(Cursor cursor) {
@@ -171,25 +185,46 @@ public class LocalGroceriesData implements GroceriesDataSource {
 
     @Override
     public Observable<List<GroceriesItem>> getAlmostExpiredGroceriesList() {
+        List<GroceriesItem> expiredItems = new ArrayList<>();
         return getGroceriesList()
-                .filter(groceriesItems -> {
-
-                    List<GroceriesItem> items = new ArrayList<>();
-                    items.addAll(groceriesItems);
-
-                    for (GroceriesItem groceriesItem : groceriesItems) {
-
-                        long diff = (groceriesItem.expiredDate() * 1000)
-                                - System.currentTimeMillis();
-
-                        long dayDiff = TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS) + 1;
-
-                        if (dayDiff > 10) {
-                            items.remove(groceriesItem);
-                        }
+                .flatMap(new Func1<List<GroceriesItem>, Observable<List<GroceriesItem>>>() {
+                    @Override
+                    public Observable<List<GroceriesItem>> call(List<GroceriesItem> groceriesItems) {
+                        return Observable.from(groceriesItems)
+                                .filter(groceriesItem -> DateUtils.dayDiff(groceriesItem.expiredDate(),
+                                        (System.currentTimeMillis() / 1000L)) < 10)
+                                .map(groceriesItem -> {
+                                    expiredItems.add(groceriesItem);
+                                    return expiredItems;
+                                });
                     }
-
-                    return items.size() > 0;
                 });
     }
+
+    @Override
+    public Observable<List<TypesItem>> getTypes() {
+        String[] projections = {
+                TypesContract.Types._ID,
+                TypesContract.Types.COLUMN_NAME_TYPES_NAME
+        };
+
+        String query = String.format("SELECT %s FROM %s",
+                TextUtils.join(", ", projections),
+                TypesContract.Types.TABLE_NAME);
+
+        return databaseHelper
+                .createQuery(TypesContract.Types.TABLE_NAME, query)
+                .mapToList(taskMapperCursorToListTypes);
+    }
+
+    @Override
+    public Observable<Dashboards> getDashboadInfo() {
+        return Observable.zip(getGroceriesList(), getAlmostExpiredGroceriesList(), getTypes(),
+                (items, itemsThatExpired, typesItems) ->
+                        Dashboards.create(
+                                items.size(),
+                                itemsThatExpired.size(),
+                                typesItems));
+    }
+
 }

@@ -1,4 +1,4 @@
-package com.expirate.expirat.ui.home;
+package com.expirate.expirat.ui.group;
 
 
 import android.support.annotation.NonNull;

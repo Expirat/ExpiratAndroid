@@ -1,7 +1,9 @@
 package com.expirate.expirat.repository;
 
 
+import com.expirate.expirat.services.response.Dashboards;
 import com.expirate.expirat.services.response.GroceriesItem;
+import com.expirate.expirat.services.response.TypesItem;
 
 import java.util.List;
 
@@ -21,4 +23,8 @@ public interface GroceriesDataSource {
     void updateGrocery(long id, GroceriesItem groceriesItem);
 
     Observable<List<GroceriesItem>> getAlmostExpiredGroceriesList();
+
+    Observable<List<TypesItem>> getTypes();
+
+    Observable<Dashboards> getDashboadInfo();
 }

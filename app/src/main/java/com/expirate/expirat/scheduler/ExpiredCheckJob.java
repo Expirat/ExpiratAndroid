@@ -15,7 +15,7 @@ import com.expirate.expirat.R;
 import com.expirate.expirat.repository.groceries.GroceriesRepository;
 import com.expirate.expirat.repository.groceries.local.LocalGroceriesDataSource;
 import com.expirate.expirat.services.response.GroceriesItem;
-import com.expirate.expirat.ui.group.MainActivity;
+import com.expirate.expirat.ui.group.GroupActivity;
 
 import java.util.Random;
 import java.util.concurrent.CountDownLatch;
@@ -61,7 +61,8 @@ public class ExpiredCheckJob extends Job {
 
                             for (GroceriesItem item : groceriesItems) {
 
-                                Intent intent = new Intent(getContext(), MainActivity.class);
+                                // TODO change to expiredActivity
+                                Intent intent = new Intent(getContext(), GroupActivity.class);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
                                 PendingIntent pendingIntent = PendingIntent.getActivity(getContext(), 0,

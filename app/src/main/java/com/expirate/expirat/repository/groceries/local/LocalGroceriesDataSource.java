@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
 import com.expirate.expirat.model.GroceriesContract;
@@ -89,7 +90,7 @@ public class LocalGroceriesDataSource implements GroceriesDataSource {
     }
 
     @Override
-    public Observable<List<GroceriesItem>> getGroceriesList() {
+    public Observable<List<GroceriesItem>> getGroceries(@Nullable Long id) {
         String[] projections = {
                 GroceriesContract.Groceries._ID,
                 GroceriesContract.Groceries.COLUMN_NAME_NAME,
@@ -98,10 +99,20 @@ public class LocalGroceriesDataSource implements GroceriesDataSource {
                 GroceriesContract.Groceries.COLUMN_NAME_CREATED_DATE,
                 GroceriesContract.Groceries.COLUMN_NAME_MODIFIED_DATE
         };
+
         String query = String.format("SELECT %s FROM %s ORDER BY %s ASC",
                 TextUtils.join(", ", projections),
                 GroceriesContract.Groceries.TABLE_NAME,
                 GroceriesContract.Groceries.COLUMN_NAME_EXPIRE_DATE);
+
+        if (id != null) {
+            query = String.format("SELECT %s FROM %s WHERE %s = %o ORDER BY %s ASC",
+                    TextUtils.join(", ", projections),
+                    GroceriesContract.Groceries.TABLE_NAME,
+                    GroceriesContract.Groceries.COLUMN_NAME_TYPE_ID,
+                    id,
+                    GroceriesContract.Groceries.COLUMN_NAME_EXPIRE_DATE);
+        }
 
         return databaseHelper
                 .createQuery(GroceriesContract.Groceries.TABLE_NAME, query)
@@ -186,7 +197,7 @@ public class LocalGroceriesDataSource implements GroceriesDataSource {
     @Override
     public Observable<List<GroceriesItem>> getAlmostExpiredGroceriesList() {
         List<GroceriesItem> expiredItems = new ArrayList<>();
-        return getGroceriesList()
+        return getGroceries(null)
                 .flatMap(new Func1<List<GroceriesItem>, Observable<List<GroceriesItem>>>() {
                     @Override
                     public Observable<List<GroceriesItem>> call(List<GroceriesItem> groceriesItems) {
@@ -219,12 +230,30 @@ public class LocalGroceriesDataSource implements GroceriesDataSource {
 
     @Override
     public Observable<Dashboards> getDashboadInfo() {
-        return Observable.zip(getGroceriesList(), getAlmostExpiredGroceriesList(), getTypes(),
+        return Observable.zip(getGroceries(null), getAlmostExpiredGroceriesList(), getTypes(),
                 (items, itemsThatExpired, typesItems) ->
                         Dashboards.create(
                                 items.size(),
                                 itemsThatExpired.size(),
                                 typesItems));
+    }
+
+    @Override
+    public Observable<TypesItem> getTypeInfo(long id) {
+        String[] projections = {
+                TypesContract.Types._ID,
+                TypesContract.Types.COLUMN_NAME_TYPES_NAME
+        };
+
+        String query = String.format("SELECT %s FROM %s WHERE %s = %o",
+                TextUtils.join(", ", projections),
+                TypesContract.Types.TABLE_NAME,
+                TypesContract.Types._ID,
+                id);
+
+        return databaseHelper
+                .createQuery(TypesContract.Types.TABLE_NAME, query)
+                .mapToOne(taskMapperCursorToListTypes);
     }
 
 }

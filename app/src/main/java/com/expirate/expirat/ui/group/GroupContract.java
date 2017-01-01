@@ -2,12 +2,13 @@ package com.expirate.expirat.ui.group;
 
 
 import com.expirate.expirat.services.response.GroceriesItem;
+import com.expirate.expirat.services.response.TypesItem;
 import com.expirate.expirat.ui.BasePresenter;
 import com.expirate.expirat.ui.BaseView;
 
 import java.util.List;
 
-public interface MainContract {
+public interface GroupContract {
 
     public interface View extends BaseView<Presenter> {
 
@@ -18,6 +19,10 @@ public interface MainContract {
         void showError();
 
         void showEmpty();
+
+        long getTypeId();
+
+        void setToolbarTitle(TypesItem typesItem);
     }
 
     public interface Presenter extends BasePresenter {

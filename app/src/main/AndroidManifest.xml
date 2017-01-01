@@ -54,7 +54,7 @@
         </activity>
 
         <activity
-                android:name=".ui.group.MainActivity"
+                android:name=".ui.group.GroupActivity"
                 android:screenOrientation="portrait"/>
 
         <activity

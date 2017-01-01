@@ -1,6 +1,7 @@
 package com.expirate.expirat.ui.home;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,8 +11,10 @@ import android.support.v7.widget.Toolbar;
 import com.expirate.expirat.R;
 import com.expirate.expirat.repository.groceries.GroceriesRepository;
 import com.expirate.expirat.repository.groceries.local.LocalGroceriesDataSource;
+import com.expirate.expirat.scheduler.ExpiredCheckJob;
 import com.expirate.expirat.services.response.Dashboards;
 import com.expirate.expirat.ui.BaseActiviy;
+import com.expirate.expirat.ui.group.GroupActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +36,9 @@ public class DashboardActivity extends BaseActiviy implements DashboardContract.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
         ButterKnife.bind(this);
+
+        // Schedulling job to check almost expired grocery, once a day
+        ExpiredCheckJob.scheduleJob();
 
         new DashboardPresenter(
                 new GroceriesRepository(LocalGroceriesDataSource.newInstance(this)),
@@ -96,6 +102,7 @@ public class DashboardActivity extends BaseActiviy implements DashboardContract.
 
     @Override
     public void onItemGroupClick(long id) {
-
+        Intent intent = GroupActivity.createIntentWithBundle(this, id);
+        startActivity(intent);
     }
 }

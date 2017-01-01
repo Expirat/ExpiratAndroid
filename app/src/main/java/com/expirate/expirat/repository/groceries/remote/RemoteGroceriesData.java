@@ -1,5 +1,7 @@
 package com.expirate.expirat.repository.groceries.remote;
 
+import android.support.annotation.Nullable;
+
 import com.expirate.expirat.repository.GroceriesDataSource;
 import com.expirate.expirat.services.response.Dashboards;
 import com.expirate.expirat.services.response.GroceriesItem;
@@ -12,7 +14,7 @@ import rx.Observable;
 
 public class RemoteGroceriesData implements GroceriesDataSource {
     @Override
-    public Observable<List<GroceriesItem>> getGroceriesList() {
+    public Observable<List<GroceriesItem>> getGroceries(@Nullable Long id) {
         return null;
     }
 
@@ -53,6 +55,11 @@ public class RemoteGroceriesData implements GroceriesDataSource {
 
     @Override
     public Observable<Dashboards> getDashboadInfo() {
+        return null;
+    }
+
+    @Override
+    public Observable<TypesItem> getTypeInfo(long id) {
         return null;
     }
 }

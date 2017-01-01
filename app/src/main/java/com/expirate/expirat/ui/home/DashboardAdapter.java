@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.expirate.expirat.R;
 import com.expirate.expirat.services.response.TypesItem;
 import com.expirate.expirat.ui.BaseHolder;
+import com.expirate.expirat.utils.ColorUtils;
 import com.expirate.expirat.utils.StringUtils;
 
 import java.util.ArrayList;
@@ -20,6 +21,8 @@ import java.util.Locale;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 
 public class DashboardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -59,7 +62,7 @@ public class DashboardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         if (viewType == ITEMS_INFO_TYPE) {
             return new ItemInfoViewHolder(parent);
         } else if (viewType == TYPES_INFO_TYPE) {
-            return new TypeInfoViewHolder(parent);
+            return new TypeInfoViewHolder(parent, listener);
         } else {
             throw new IllegalStateException("Failed create view holder");
         }
@@ -72,6 +75,12 @@ public class DashboardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
             ItemInfoViewHolder viewHolder = (ItemInfoViewHolder) holder;
             viewHolder.bind(itemInfo);
+
+            viewHolder.itemView.setOnClickListener(v -> {
+                checkNotNull(listener);
+                listener.onItemInfoClick();
+            });
+
         } else if (holder instanceof TypeInfoViewHolder) {
             TypesInfo typesInfo = (TypesInfo) items.get(position);
 
@@ -109,9 +118,13 @@ public class DashboardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     public static class TypeInfoViewHolder extends BaseHolder {
 
         @Bind(R.id.recyclerview) RecyclerView recyclerView;
+        private DashboardClickListener listener;
 
-        public TypeInfoViewHolder(ViewGroup parent) {
+        public TypeInfoViewHolder(ViewGroup parent, DashboardClickListener listener) {
             super(R.layout.view_dashboard_groups, parent);
+
+            this.listener = listener;
+
             ButterKnife.bind(this, itemView);
 
             recyclerView.setNestedScrollingEnabled(false);
@@ -121,7 +134,7 @@ public class DashboardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         }
 
         public void bind(TypesInfo typesInfo) {
-            GridAdapter gridAdapter = new GridAdapter(itemView.getContext());
+            GridAdapter gridAdapter = new GridAdapter(itemView.getContext(), listener);
             recyclerView.setAdapter(gridAdapter);
 
             gridAdapter.setTypes(typesInfo.types());
@@ -133,8 +146,11 @@ public class DashboardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
             private int[] groupsColors;
 
-            public GridAdapter(Context context) {
+            private DashboardClickListener listener;
+
+            public GridAdapter(Context context, DashboardClickListener listener) {
                 groupsColors = context.getResources().getIntArray(R.array.group_colors);
+                this.listener = listener;
             }
 
             public void setTypes(List<TypesItem> types) {
@@ -151,11 +167,12 @@ public class DashboardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             @Override
             public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
                 TypesItem item = types.get(position);
-
-                int color = groupsColors[ position % groupsColors.length];
-
                 GridItemViewHolder viewHolder = (GridItemViewHolder) holder;
-                viewHolder.bind(item, color);
+                viewHolder.bind(item);
+                viewHolder.itemView.setOnClickListener(v -> {
+                    checkNotNull(listener);
+                    listener.onItemGroupClick(item.id());
+                });
             }
 
             @Override
@@ -174,7 +191,10 @@ public class DashboardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     ButterKnife.bind(this, itemView);
                 }
 
-                public void bind(TypesItem item, int color) {
+                public void bind(TypesItem item) {
+
+                    int color = ColorUtils.colorById(itemView.getContext(), (int) item.id());
+
                     labelView.setText(item.typesName());
                     initialView.setText(StringUtils.getFirstCharacterEachWord(item.typesName()));
 

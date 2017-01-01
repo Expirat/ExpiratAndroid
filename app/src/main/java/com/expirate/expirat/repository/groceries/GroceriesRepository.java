@@ -2,6 +2,7 @@ package com.expirate.expirat.repository.groceries;
 
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.expirate.expirat.repository.GroceriesDataSource;
 import com.expirate.expirat.services.response.Dashboards;
@@ -23,8 +24,8 @@ public class GroceriesRepository implements GroceriesDataSource {
     }
 
     @Override
-    public Observable<List<GroceriesItem>> getGroceriesList() {
-        return localGroceriesDataSource.getGroceriesList().subscribeOn(Schedulers.io());
+    public Observable<List<GroceriesItem>> getGroceries(@Nullable Long id) {
+        return localGroceriesDataSource.getGroceries(id).subscribeOn(Schedulers.io());
     }
 
     @Override
@@ -68,5 +69,10 @@ public class GroceriesRepository implements GroceriesDataSource {
     public Observable<Dashboards> getDashboadInfo() {
         return localGroceriesDataSource.getDashboadInfo()
                 .subscribeOn(Schedulers.io());
+    }
+
+    @Override
+    public Observable<TypesItem> getTypeInfo(long id) {
+        return localGroceriesDataSource.getTypeInfo(id).subscribeOn(Schedulers.io());
     }
 }

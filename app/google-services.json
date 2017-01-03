@@ -1,0 +1,38 @@
+{
+  "project_info": {
+    "project_number": "440997926272",
+    "project_id": "firebase-expirat"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:440997926272:android:79ee7f1d8c0fb5f6",
+        "android_client_info": {
+          "package_name": "com.expirate.expirat"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDgp-VY8XGJu3uSiOagNlgP351pu5vKCqk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 2,
+          "analytics_property": {
+            "tracking_id": "UA-89689259-1"
+          }
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

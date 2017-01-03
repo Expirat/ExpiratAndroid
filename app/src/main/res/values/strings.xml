@@ -27,5 +27,6 @@
     <string name="label_expired_items">Expired Items</string>
     <string name="content_desc_arrow_right" translatable="false">Arrow right</string>
     <string name="content_desc_icon" translatable="false">Icon</string>
+    <string name="msg_notification">%d items is almost expired. Please check it now!</string>
 
 </resources>

@@ -14,14 +14,16 @@ import com.evernote.android.job.JobRequest;
 import com.expirate.expirat.R;
 import com.expirate.expirat.repository.groceries.GroceriesRepository;
 import com.expirate.expirat.repository.groceries.local.LocalGroceriesDataSource;
-import com.expirate.expirat.services.response.GroceriesItem;
-import com.expirate.expirat.ui.group.GroupActivity;
+import com.expirate.expirat.ui.expired.ExpiredActivity;
 
+import java.util.Calendar;
+import java.util.Locale;
 import java.util.Random;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
 import rx.android.schedulers.AndroidSchedulers;
+import timber.log.Timber;
 
 
 public class ExpiredCheckJob extends Job {
@@ -29,8 +31,25 @@ public class ExpiredCheckJob extends Job {
     public static final String TAG = "expired_check_job";
 
     public static void scheduleJob() {
+        int minutesToStart = 15;
+        int hoursToStart = 8;
+
+        Calendar calendar = Calendar.getInstance();
+        int minute = calendar.get(Calendar.MINUTE);
+        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+
+        long startMs = TimeUnit.MINUTES.toMillis((minutesToStart - (minute)))
+                + TimeUnit.HOURS.toMillis( ((hoursToStart - hour) % 24) );
+
+        if(startMs < 0){
+            Timber.i("next scheduling in a day...");
+            startMs += TimeUnit.DAYS.toMillis(1);
+        }
+
+        long endMs = startMs + TimeUnit.MINUTES.toMillis(1);
+
         new JobRequest.Builder(TAG)
-                .setPeriodic(TimeUnit.MINUTES.toMillis(60) * 24)
+                .setExecutionWindow(startMs, endMs)
                 .setPersisted(true)
                 .setUpdateCurrent(true)
                 .setRequirementsEnforced(true)
@@ -59,30 +78,29 @@ public class ExpiredCheckJob extends Job {
                                 return;
                             }
 
-                            for (GroceriesItem item : groceriesItems) {
+                            Intent intent = new Intent(getContext(), ExpiredActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
-                                // TODO change to expiredActivity
-                                Intent intent = new Intent(getContext(), GroupActivity.class);
-                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            PendingIntent pendingIntent = PendingIntent
+                                    .getActivity(getContext(), 0, intent, 0);
 
-                                PendingIntent pendingIntent = PendingIntent.getActivity(getContext(), 0,
-                                        intent, 0);
+                            Notification notification = new NotificationCompat
+                                    .Builder(getContext())
+                                    .setContentTitle(getContext().getResources()
+                                            .getString(R.string.app_name))
+                                    .setContentText(String.format(Locale.getDefault(),
+                                            getContext().getString(R.string.msg_notification),
+                                            groceriesItems.size()))
+                                    .setAutoCancel(true)
+                                    .setContentIntent(pendingIntent)
+                                    .setSmallIcon(R.drawable.ic_notification)
+                                    .setShowWhen(true)
+                                    .setLocalOnly(true)
+                                    .setStyle(new NotificationCompat.BigTextStyle())
+                                    .build();
 
-                                Notification notification = new NotificationCompat.Builder(getContext())
-                                        .setContentTitle(getContext().getResources()
-                                                .getString(R.string.app_name))
-                                        .setContentText(item.name() + " almost expired. "
-                                                + "Please check it now!")
-                                        .setAutoCancel(true)
-                                        .setContentIntent(pendingIntent)
-                                        .setSmallIcon(R.drawable.ic_notification)
-                                        .setShowWhen(true)
-                                        .setLocalOnly(true)
-                                        .build();
-
-                                NotificationManagerCompat.from(getContext())
-                                        .notify(new Random().nextInt(), notification);
-                            }
+                            NotificationManagerCompat.from(getContext())
+                                    .notify(new Random().nextInt(), notification);
 
                         }, Crashlytics::logException);
 

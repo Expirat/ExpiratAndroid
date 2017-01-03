@@ -1,6 +1,9 @@
 package com.expirate.expirat.ui.expired;
 
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,6 +17,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.expirate.expirat.InjectorClass;
 import com.expirate.expirat.R;
 import com.expirate.expirat.repository.groceries.GroceriesRepository;
 import com.expirate.expirat.repository.groceries.local.LocalGroceriesDataSource;
@@ -23,6 +27,8 @@ import com.expirate.expirat.ui.group.GroceriesAdapter;
 import com.expirate.expirat.ui.widget.EmptyView;
 
 import java.util.List;
+
+import javax.inject.Inject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -35,6 +41,8 @@ public class ExpiredActivity extends BaseActiviy implements ExpiredContract.View
     @Bind(R.id.recyclerview) RecyclerView recyclerView;
     @Bind(R.id.empty_view) EmptyView emptyView;
 
+    @Inject Tracker tracker;
+
     private ExpiredContract.Presenter presenter;
 
     private GroceriesAdapter adapter;
@@ -45,8 +53,13 @@ public class ExpiredActivity extends BaseActiviy implements ExpiredContract.View
         setContentView(R.layout.activity_expired);
         ButterKnife.bind(this);
 
+        InjectorClass.INSTANCE.getApplicationGraph().inject(this);
+
         new ExpiredPresenter(new GroceriesRepository(LocalGroceriesDataSource.newInstance(this)),
                 this);
+
+        tracker.setScreenName("Expired");
+        tracker.send(new HitBuilders.ScreenViewBuilder().build());
 
         setupToolbar(toolbar, "Expired", true);
         setupContent();
@@ -101,12 +114,23 @@ public class ExpiredActivity extends BaseActiviy implements ExpiredContract.View
 
     @Override
     public void onItemMoreClickListener(long id, View view) {
+        tracker.send(new HitBuilders.EventBuilder()
+                .setCategory("Expired")
+                .setAction("Click")
+                .setLabel("Open Popup Menu")
+                .build());
+
         PopupMenu popupMenu = new PopupMenu(this, view);
         MenuInflater inflater = popupMenu.getMenuInflater();
         inflater.inflate(R.menu.menu_popup_expired, popupMenu.getMenu());
         popupMenu.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()) {
                 case R.id.action_delete:
+                    tracker.send(new HitBuilders.EventBuilder()
+                            .setCategory("Popup Menu")
+                            .setAction("Click")
+                            .setLabel("Delete")
+                            .build());
                     confirmDelete(id);
                     return true;
             }

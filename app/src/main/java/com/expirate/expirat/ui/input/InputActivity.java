@@ -1,6 +1,9 @@
 package com.expirate.expirat.ui.input;
 
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,6 +16,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.expirate.expirat.InjectorClass;
 import com.expirate.expirat.R;
 import com.expirate.expirat.repository.groceries.GroceriesRepository;
 import com.expirate.expirat.repository.groceries.local.LocalGroceriesDataSource;
@@ -22,6 +26,8 @@ import com.expirate.expirat.utils.Constant;
 import com.expirate.expirat.utils.DateUtils;
 import com.expirate.expirat.utils.StringUtils;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
+
+import javax.inject.Inject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -35,6 +41,8 @@ public class InputActivity extends BaseActiviy implements InputContract.View,
     @Bind(R.id.name_input) EditText inputName;
     @Bind(R.id.expired_date_input) TextView inputExpiredDate;
     @Bind(R.id.save_button) TextView btnSave;
+
+    @Inject Tracker tracker;
 
     private InputContract.Presenter presenter;
 
@@ -54,9 +62,14 @@ public class InputActivity extends BaseActiviy implements InputContract.View,
         setContentView(R.layout.activity_input);
         ButterKnife.bind(this);
 
+        InjectorClass.INSTANCE.getApplicationGraph().inject(this);
+
         new InputPresenter(
                 new GroceriesRepository(LocalGroceriesDataSource.newInstance(this)),
                 this);
+
+        tracker.setScreenName("Input");
+        tracker.send(new HitBuilders.ScreenViewBuilder().build());
 
         setupToolbar(toolbar, null, true);
         setupContent();
@@ -64,6 +77,12 @@ public class InputActivity extends BaseActiviy implements InputContract.View,
 
     private void setupContent() {
         btnSave.setOnClickListener(v -> {
+
+            tracker.send(new HitBuilders.EventBuilder()
+                    .setCategory("Input")
+                    .setAction("Click")
+                    .setLabel("Save")
+                    .build());
 
             hideSoftKeyboard();
 
@@ -194,5 +213,15 @@ public class InputActivity extends BaseActiviy implements InputContract.View,
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        tracker.send(new HitBuilders.EventBuilder()
+                .setCategory("Input")
+                .setAction("Click")
+                .setLabel("Back")
+                .build());
     }
 }

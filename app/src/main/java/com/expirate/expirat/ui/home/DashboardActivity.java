@@ -1,6 +1,9 @@
 package com.expirate.expirat.ui.home;
 
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -8,6 +11,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 
+import com.expirate.expirat.InjectorClass;
 import com.expirate.expirat.R;
 import com.expirate.expirat.repository.groceries.GroceriesRepository;
 import com.expirate.expirat.repository.groceries.local.LocalGroceriesDataSource;
@@ -20,6 +24,8 @@ import com.expirate.expirat.ui.group.GroupActivity;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
@@ -28,6 +34,8 @@ public class DashboardActivity extends BaseActiviy implements DashboardContract.
 
     @Bind(R.id.toolbar) Toolbar toolbar;
     @Bind(R.id.recyclerview) RecyclerView recyclerView;
+
+    @Inject Tracker tracker;
 
     private DashboardContract.Presenter presenter;
     private DashboardAdapter adapter;
@@ -38,12 +46,17 @@ public class DashboardActivity extends BaseActiviy implements DashboardContract.
         setContentView(R.layout.activity_dashboard);
         ButterKnife.bind(this);
 
+        InjectorClass.INSTANCE.getApplicationGraph().inject(this);
+
         // Schedulling job to check almost expired grocery, once a day
         ExpiredCheckJob.scheduleJob();
 
         new DashboardPresenter(
                 new GroceriesRepository(LocalGroceriesDataSource.newInstance(this)),
                 this);
+
+        tracker.setScreenName("Dashboard");
+        tracker.send(new HitBuilders.ScreenViewBuilder().build());
 
         setupToolbar(toolbar, null, false);
 
@@ -98,12 +111,22 @@ public class DashboardActivity extends BaseActiviy implements DashboardContract.
 
     @Override
     public void onItemInfoClick() {
+        tracker.send(new HitBuilders.EventBuilder()
+                .setCategory("Dashboard")
+                .setAction("Click")
+                .setLabel("Show List Expired Items")
+                .build());
         Intent intent = ExpiredActivity.createIntent(this);
         startActivity(intent);
     }
 
     @Override
     public void onItemGroupClick(long id) {
+        tracker.send(new HitBuilders.EventBuilder()
+                .setCategory("Dashboard")
+                .setAction("Click")
+                .setLabel("Show List Items By Group: " + id)
+                .build());
         Intent intent = GroupActivity.createIntentWithBundle(this, id);
         startActivity(intent);
     }

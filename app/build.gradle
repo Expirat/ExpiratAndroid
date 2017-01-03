@@ -8,6 +8,7 @@ buildscript {
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
         classpath 'me.tatarka:gradle-retrolambda:3.4.0'
         classpath 'io.fabric.tools:gradle:1.+'
+        classpath 'com.google.gms:google-services:3.0.0'
     }
 }
 
@@ -69,6 +70,7 @@ ext {
     gsonVersion="2.6.2"
     okHttpVersion="2.4.0"
     guavaVersion="20.0"
+    googleServiceVersion="10.0.1"
 }
 
 dependencies {
@@ -122,4 +124,8 @@ dependencies {
     }
 
     compile 'de.hdodenhof:circleimageview:2.1.0'
+
+    compile "com.google.android.gms:play-services-analytics:$googleServiceVersion"
 }
+
+apply plugin: 'com.google.gms.google-services'

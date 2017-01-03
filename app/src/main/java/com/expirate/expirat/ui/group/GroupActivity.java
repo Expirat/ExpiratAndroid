@@ -1,5 +1,8 @@
 package com.expirate.expirat.ui.group;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,6 +17,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.expirate.expirat.InjectorClass;
 import com.expirate.expirat.R;
 import com.expirate.expirat.repository.groceries.GroceriesRepository;
 import com.expirate.expirat.repository.groceries.local.LocalGroceriesDataSource;
@@ -25,6 +29,8 @@ import com.expirate.expirat.ui.widget.EmptyView;
 import com.expirate.expirat.utils.Constant;
 
 import java.util.List;
+
+import javax.inject.Inject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -38,6 +44,8 @@ public class GroupActivity extends BaseActiviy implements GroupContract.View,
     @Bind(R.id.recyclerview) RecyclerView recyclerView;
     @Bind(R.id.fab_add) FloatingActionButton addFab;
     @Bind(R.id.empty_view) EmptyView emptyView;
+
+    @Inject Tracker tracker;
 
     private GroupContract.Presenter presenter;
 
@@ -62,7 +70,13 @@ public class GroupActivity extends BaseActiviy implements GroupContract.View,
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        new GroupPresenter(new GroceriesRepository(LocalGroceriesDataSource.newInstance(this)), this);
+        InjectorClass.INSTANCE.getApplicationGraph().inject(this);
+
+        new GroupPresenter(new GroceriesRepository(LocalGroceriesDataSource.newInstance(this)),
+                this);
+
+        tracker.setScreenName("Group");
+        tracker.send(new HitBuilders.ScreenViewBuilder().build());
 
         setupToolbar(toolbar, null, true);
         setupContent();
@@ -80,6 +94,12 @@ public class GroupActivity extends BaseActiviy implements GroupContract.View,
     }
 
     private void openInputActivity() {
+        tracker.send(new HitBuilders.EventBuilder()
+                .setCategory("Group")
+                .setAction("Click")
+                .setLabel("Added New Item Group ID " + getTypeId())
+                .build());
+
         Bundle bundle = new Bundle();
         bundle.putLong(Constant.EXTRA_TYPE_ID, getTypeId());
 
@@ -155,15 +175,31 @@ public class GroupActivity extends BaseActiviy implements GroupContract.View,
 
     @Override
     public void onItemMoreClickListener(long id, View view) {
+        tracker.send(new HitBuilders.EventBuilder()
+                .setCategory("Group")
+                .setAction("Click")
+                .setLabel("Popup Menu")
+                .build());
+
         PopupMenu popupMenu = new PopupMenu(this, view);
         MenuInflater inflater = popupMenu.getMenuInflater();
         inflater.inflate(R.menu.menu_pop_up, popupMenu.getMenu());
         popupMenu.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()) {
                 case R.id.action_edit:
+                    tracker.send(new HitBuilders.EventBuilder()
+                            .setCategory("Popup Menu")
+                            .setAction("Click")
+                            .setLabel("Edit")
+                            .build());
                     onItemClickListener(id);
                     return true;
                 case R.id.action_delete:
+                    tracker.send(new HitBuilders.EventBuilder()
+                            .setCategory("Popup Menu")
+                            .setAction("Click")
+                            .setLabel("Delete")
+                            .build());
                     confirmDelete(id);
                     return true;
             }

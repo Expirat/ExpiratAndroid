@@ -21,4 +21,5 @@
     <string name="format_label_year_left">%o\ntahun tersisa</string>
     <string name="message_empty_list">Anda belum memiliki daftar barang.\nTekan tombol \'+\' untuk menambahkan.</string>
     <string name="label_expired_items">Daftar Kadaluarsa</string>
+    <string name="msg_notification">%d barang mendekati tanggal kadaluarsa. Mohon periksa sekarang!</string>
 </resources>

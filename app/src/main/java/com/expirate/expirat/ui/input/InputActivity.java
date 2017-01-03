@@ -19,10 +19,9 @@ import com.expirate.expirat.repository.groceries.local.LocalGroceriesDataSource;
 import com.expirate.expirat.services.response.GroceriesItem;
 import com.expirate.expirat.ui.BaseActiviy;
 import com.expirate.expirat.utils.Constant;
+import com.expirate.expirat.utils.DateUtils;
 import com.expirate.expirat.utils.StringUtils;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
-
-import java.util.Calendar;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -34,7 +33,6 @@ public class InputActivity extends BaseActiviy implements InputContract.View,
 
     @Bind(R.id.toolbar) Toolbar toolbar;
     @Bind(R.id.name_input) EditText inputName;
-    @Bind(R.id.buy_date_input) TextView inputBuyDate;
     @Bind(R.id.expired_date_input) TextView inputExpiredDate;
     @Bind(R.id.save_button) TextView btnSave;
 
@@ -44,14 +42,9 @@ public class InputActivity extends BaseActiviy implements InputContract.View,
         return new Intent(context, InputActivity.class);
     }
 
-    public static Intent createIntentWithBundle(Context context, long id) {
+    public static Intent createIntentWithBundle(Context context, Bundle bundle) {
         Intent intent = createIntent(context);
-
-        Bundle bundle = new Bundle();
-        bundle.putLong(Constant.EXTRA_ID, id);
-
         intent.putExtras(bundle);
-
         return intent;
     }
 
@@ -75,28 +68,25 @@ public class InputActivity extends BaseActiviy implements InputContract.View,
             hideSoftKeyboard();
 
             String productName = inputName.getText().toString();
-            String buyDate = inputBuyDate.getText().toString();
             String expiredDate = inputExpiredDate.getText().toString();
+            long typeId = getIntent().getLongExtra(Constant.EXTRA_TYPE_ID, -1);
 
-            presenter.saveGrocery(productName, buyDate, expiredDate);
+            presenter.saveGrocery(productName, typeId, expiredDate);
         });
 
-        inputBuyDate.setText(StringUtils.getToday());
 
         inputExpiredDate.setText(StringUtils.getToday());
 
-        inputBuyDate.setOnClickListener(v -> openDatePickerDialog(Constant.TAG_BUY_DATE));
 
         inputExpiredDate.setOnClickListener(v -> openDatePickerDialog(Constant.TAG_EXPIRED_DATE));
     }
 
     private void openDatePickerDialog(String tag) {
-        Calendar now = Calendar.getInstance();
         DatePickerDialog dpd = DatePickerDialog.newInstance(
                 this,
-                now.get(Calendar.YEAR),
-                now.get(Calendar.MONTH),
-                now.get(Calendar.DAY_OF_MONTH)
+                DateUtils.getYear(inputExpiredDate.getText().toString()),
+                DateUtils.getMonth(inputExpiredDate.getText().toString()),
+                DateUtils.getDay(inputExpiredDate.getText().toString())
         );
         dpd.show(getFragmentManager(), tag);
     }
@@ -129,7 +119,7 @@ public class InputActivity extends BaseActiviy implements InputContract.View,
 
     @Override
     public long getGrocerieId() {
-        if (getIntent().getExtras() == null) {
+        if (!getIntent().getExtras().containsKey(Constant.EXTRA_ID)) {
             return -1;
         }
 
@@ -139,7 +129,6 @@ public class InputActivity extends BaseActiviy implements InputContract.View,
     @Override
     public void setData(GroceriesItem groceriesItem) {
         inputName.setText(groceriesItem.name());
-        inputBuyDate.setText(StringUtils.getStringDate(groceriesItem.buyDate()));
         inputExpiredDate.setText(StringUtils.getStringDate(groceriesItem.expiredDate()));
     }
 
@@ -191,9 +180,6 @@ public class InputActivity extends BaseActiviy implements InputContract.View,
         String tag = view.getTag();
 
         switch (tag) {
-            case Constant.TAG_BUY_DATE:
-                inputBuyDate.setText(StringUtils.setDate(year, monthOfYear, dayOfMonth));
-                break;
             case Constant.TAG_EXPIRED_DATE:
                 inputExpiredDate.setText(StringUtils.setDate(year, monthOfYear, dayOfMonth));
                 break;

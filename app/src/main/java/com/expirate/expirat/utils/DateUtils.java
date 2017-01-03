@@ -9,4 +9,23 @@ public final class DateUtils {
         long dayDiff = diff / (60 * 60 * 24);
         return (int) dayDiff;
     }
+
+    public static int getYear(String fullDate) {
+        String[] splitDate = splitFullDateString(fullDate);
+        return Integer.parseInt(splitDate[2]);
+    }
+
+    public static int getMonth(String fullDate) {
+        String[] splitDate = splitFullDateString(fullDate);
+        return Integer.parseInt(splitDate[1]) - 1;
+    }
+
+    public static int getDay(String fullDate) {
+        String[] splitDate = splitFullDateString(fullDate);
+        return Integer.parseInt(splitDate[0]);
+    }
+
+    private static String[] splitFullDateString(String fullDate) {
+        return fullDate.split("-");
+    }
 }

@@ -69,7 +69,7 @@ public class InputPresenter implements InputContract.Presenter {
     }
 
     @Override
-    public void saveGrocery(String productName, String buyDate, String expiredDate) {
+    public void saveGrocery(String productName, long typeId, String expiredDate) {
         if (productName.isEmpty()) {
             view.emptyProductName();
             return;
@@ -82,38 +82,25 @@ public class InputPresenter implements InputContract.Presenter {
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy",
                     Locale.getDefault());
 
-            Date buyDateFormat = simpleDateFormat.parse(buyDate);
             Date expiredDateFormat = simpleDateFormat.parse(expiredDate);
 
-            long unixBuyDate = buyDateFormat.getTime() / 1000;
-            long unixExpiredDate = expiredDateFormat.getTime() / 1000;
-            long unixCreatedDate = System.currentTimeMillis() / 1000;
-            long unixModifiedDate = System.currentTimeMillis() / 1000;
-
-            if (unixBuyDate == unixExpiredDate) {
-                view.errorSameDateBuyAndExpired();
-                return;
-            }
-
-            if (unixBuyDate > unixExpiredDate) {
-                view.errorBiggerDateBuyThanExpired();
-                return;
-            }
+            long unixExpiredDate = expiredDateFormat.getTime() / 1000L;
+            long unixCreatedDate = System.currentTimeMillis() / 1000L;
+            long unixModifiedDate = System.currentTimeMillis() / 1000L;
 
             if (inputNewGrocery) {
                 GroceriesItem groceriesItem = GroceriesItem.builder()
                         .setName(productName)
-                        .setBuyDate(unixBuyDate)
                         .setExpiredDate(unixExpiredDate)
                         .setCreatedDate(unixCreatedDate)
                         .setModifiedDate(unixModifiedDate)
+                        .setType((int) typeId)
                         .build();
                 repository.saveGrocery(groceriesItem);
             } else {
                 long id = view.getGrocerieId();
                 GroceriesItem groceriesItem = GroceriesItem.builder()
                         .setName(productName)
-                        .setBuyDate(unixBuyDate)
                         .setExpiredDate(unixExpiredDate)
                         .setModifiedDate(unixModifiedDate)
                         .build();

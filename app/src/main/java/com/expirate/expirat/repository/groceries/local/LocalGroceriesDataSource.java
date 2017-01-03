@@ -132,6 +132,7 @@ public class LocalGroceriesDataSource implements GroceriesDataSource {
                 groceriesItem.createdDate());
         values.put(GroceriesContract.Groceries.COLUMN_NAME_MODIFIED_DATE,
                 groceriesItem.modifiedDate());
+        values.put(GroceriesContract.Groceries.COLUMN_NAME_TYPE_ID, groceriesItem.type());
 
         databaseHelper.insert(GroceriesContract.Groceries.TABLE_NAME, values,
                 SQLiteDatabase.CONFLICT_REPLACE);
@@ -200,10 +201,17 @@ public class LocalGroceriesDataSource implements GroceriesDataSource {
         return getGroceries(null)
                 .flatMap(new Func1<List<GroceriesItem>, Observable<List<GroceriesItem>>>() {
                     @Override
-                    public Observable<List<GroceriesItem>> call(List<GroceriesItem> groceriesItems) {
+                    public Observable<List<GroceriesItem>>
+                    call(List<GroceriesItem> groceriesItems) {
+
+                        if (groceriesItems.size() <= 0) {
+                            return Observable.just(groceriesItems);
+                        }
+
                         return Observable.from(groceriesItems)
-                                .filter(groceriesItem -> DateUtils.dayDiff(groceriesItem.expiredDate(),
-                                        (System.currentTimeMillis() / 1000L)) < 10)
+                                .filter(groceriesItem -> DateUtils.dayDiff(
+                                        groceriesItem.expiredDate(), (System.currentTimeMillis()
+                                                / 1000L)) < 10)
                                 .map(groceriesItem -> {
                                     expiredItems.add(groceriesItem);
                                     return expiredItems;

@@ -2,7 +2,6 @@ package com.expirate.expirat.ui.group;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -23,7 +22,6 @@ import com.expirate.expirat.services.response.TypesItem;
 import com.expirate.expirat.ui.BaseActiviy;
 import com.expirate.expirat.ui.input.InputActivity;
 import com.expirate.expirat.ui.widget.EmptyView;
-import com.expirate.expirat.utils.ColorUtils;
 import com.expirate.expirat.utils.Constant;
 
 import java.util.List;
@@ -82,7 +80,10 @@ public class GroupActivity extends BaseActiviy implements GroupContract.View,
     }
 
     private void openInputActivity() {
-        Intent intent = InputActivity.createIntent(this);
+        Bundle bundle = new Bundle();
+        bundle.putLong(Constant.EXTRA_TYPE_ID, getTypeId());
+
+        Intent intent = InputActivity.createIntentWithBundle(this, bundle);
         startActivity(intent);
     }
 
@@ -139,15 +140,16 @@ public class GroupActivity extends BaseActiviy implements GroupContract.View,
             throw new IllegalStateException("Activity must implement toolbar");
         }
 
-        getSupportActionBar().setBackgroundDrawable(
-                new ColorDrawable(ColorUtils.colorById(this, (int) typesItem.id())));
-
         getSupportActionBar().setTitle(typesItem.typesName());
     }
 
     @Override
     public void onItemClickListener(long id) {
-        Intent intent = InputActivity.createIntentWithBundle(this, id);
+        Bundle bundle = new Bundle();
+        bundle.putLong(Constant.EXTRA_ID, id);
+        bundle.putLong(Constant.EXTRA_TYPE_ID, getTypeId());
+
+        Intent intent = InputActivity.createIntentWithBundle(this, bundle);
         startActivity(intent);
     }
 

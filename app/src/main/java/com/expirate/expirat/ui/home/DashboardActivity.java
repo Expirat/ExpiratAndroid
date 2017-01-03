@@ -14,6 +14,7 @@ import com.expirate.expirat.repository.groceries.local.LocalGroceriesDataSource;
 import com.expirate.expirat.scheduler.ExpiredCheckJob;
 import com.expirate.expirat.services.response.Dashboards;
 import com.expirate.expirat.ui.BaseActiviy;
+import com.expirate.expirat.ui.expired.ExpiredActivity;
 import com.expirate.expirat.ui.group.GroupActivity;
 
 import java.util.ArrayList;
@@ -97,7 +98,8 @@ public class DashboardActivity extends BaseActiviy implements DashboardContract.
 
     @Override
     public void onItemInfoClick() {
-
+        Intent intent = ExpiredActivity.createIntent(this);
+        startActivity(intent);
     }
 
     @Override

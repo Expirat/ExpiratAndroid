@@ -17,7 +17,8 @@ public abstract class GroceriesItem {
     @Nullable
     public abstract String barcode();
 
-    public abstract long buyDate();
+    @Nullable
+    public abstract Long buyDate();
 
     public abstract long expiredDate();
 
@@ -25,6 +26,9 @@ public abstract class GroceriesItem {
     public abstract Long createdDate();
 
     public abstract long modifiedDate();
+
+    @Nullable
+    public abstract Integer type();
 
     public static Builder builder() {
         return new AutoValue_GroceriesItem.Builder();
@@ -38,13 +42,15 @@ public abstract class GroceriesItem {
 
         public abstract Builder setBarcode(String barcode);
 
-        public abstract Builder setBuyDate(long buyDate);
+        public abstract Builder setBuyDate(Long buyDate);
 
         public abstract Builder setExpiredDate(long expiredDate);
 
         public abstract Builder setCreatedDate(Long createdDate);
 
         public abstract Builder setModifiedDate(long modifiedDate);
+
+        public abstract Builder setType(Integer type);
 
         public abstract GroceriesItem build();
     }

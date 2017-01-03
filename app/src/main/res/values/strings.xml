@@ -1,9 +1,9 @@
 <resources>
     <string name="app_name" translatable="false">Expirat</string>
 
-    <string name="hint_product_name">Product Name</string>
+    <string name="hint_product_name">Item Name</string>
 
-    <string name="header_product_name">Product Name</string>
+    <string name="header_product_name">Item Name</string>
     <string name="header_buy_date">Buy Date</string>
     <string name="header_expired_date">Expired Date</string>
 
@@ -21,11 +21,11 @@
     <string name="format_label_buy_date">Buy Date\n%s</string>
     <string name="format_label_expired_date">Expired Date\n%s</string>
     <string name="image_description_empty_list" translatable="false">Image empty list</string>
-    <string name="message_empty_list">You don\'t have any grocery.\nAdd new one here.</string>
+    <string name="message_empty_list">You don\'t have any items.\nAdd new one here.</string>
     <string name="title_action_delete" translatable="false">Delete</string>
     <string name="image_description_action_more" translatable="false">Action more</string>
     <string name="label_expired_items">Expired Items</string>
-    <string name="content_desc_arrow_right">Arrow right</string>
-    <string name="content_desc_icon">Icon</string>
+    <string name="content_desc_arrow_right" translatable="false">Arrow right</string>
+    <string name="content_desc_icon" translatable="false">Icon</string>
 
 </resources>

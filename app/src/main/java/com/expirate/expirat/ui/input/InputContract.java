@@ -27,6 +27,6 @@ public interface InputContract {
     }
 
     public interface Presenter extends BasePresenter {
-        void saveGrocery(String productName, String buyDate, String expiredDate);
+        void saveGrocery(String productName, long typeId, String expiredDate);
     }
 }

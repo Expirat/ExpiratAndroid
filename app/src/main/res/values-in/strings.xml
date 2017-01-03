@@ -19,5 +19,6 @@
     <string name="format_label_days_left">%o\nhari tersisa</string>
     <string name="format_label_expired_date">Tanggal Kadaluarsa\n%s</string>
     <string name="format_label_year_left">%o\ntahun tersisa</string>
-    <string name="message_empty_list">Anda belum memiliki daftar belanja.\nTekan tombol \'+\' untuk menambahkan.</string>
+    <string name="message_empty_list">Anda belum memiliki daftar barang.\nTekan tombol \'+\' untuk menambahkan.</string>
+    <string name="label_expired_items">Daftar Kadaluarsa</string>
 </resources>

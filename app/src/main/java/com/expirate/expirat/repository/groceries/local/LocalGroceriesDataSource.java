@@ -18,7 +18,7 @@ import com.expirate.expirat.utils.DateUtils;
 import com.squareup.sqlbrite.BriteDatabase;
 import com.squareup.sqlbrite.SqlBrite;
 
-import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import rx.Observable;
@@ -197,27 +197,18 @@ public class LocalGroceriesDataSource implements GroceriesDataSource {
 
     @Override
     public Observable<List<GroceriesItem>> getAlmostExpiredGroceriesList() {
-        List<GroceriesItem> expiredItems = new ArrayList<>();
         return getGroceries(null)
-                .flatMap(new Func1<List<GroceriesItem>, Observable<List<GroceriesItem>>>() {
-                    @Override
-                    public Observable<List<GroceriesItem>>
-                    call(List<GroceriesItem> groceriesItems) {
+                .map(this::removeUnexpiredItems);
+    }
 
-                        if (groceriesItems.size() <= 0) {
-                            return Observable.just(groceriesItems);
-                        }
-
-                        return Observable.from(groceriesItems)
-                                .filter(groceriesItem -> DateUtils.dayDiff(
-                                        groceriesItem.expiredDate(), (System.currentTimeMillis()
-                                                / 1000L)) < 10)
-                                .map(groceriesItem -> {
-                                    expiredItems.add(groceriesItem);
-                                    return expiredItems;
-                                });
-                    }
-                });
+    private List<GroceriesItem> removeUnexpiredItems(List<GroceriesItem> groceriesItems) {
+        for (Iterator<GroceriesItem> iterator = groceriesItems.iterator(); iterator.hasNext(); ) {
+            if (DateUtils.dayDiff(iterator.next().expiredDate(),
+                    (System.currentTimeMillis() / 1000L)) > 10) {
+                iterator.remove();
+            }
+        }
+        return groceriesItems;
     }
 
     @Override

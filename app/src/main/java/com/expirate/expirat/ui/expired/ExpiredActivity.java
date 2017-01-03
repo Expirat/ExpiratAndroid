@@ -26,6 +26,8 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 public class ExpiredActivity extends BaseActiviy implements ExpiredContract.View, GroceriesAdapter.ClickListener {
 
     @Bind(R.id.toolbar) Toolbar toolbar;
@@ -60,7 +62,7 @@ public class ExpiredActivity extends BaseActiviy implements ExpiredContract.View
 
     @Override
     public void setPresenter(ExpiredContract.Presenter presenter) {
-        this.presenter = presenter;
+        this.presenter = checkNotNull(presenter);
     }
 
     @Override

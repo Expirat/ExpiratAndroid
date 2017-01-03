@@ -18,13 +18,13 @@ public class ExpiredPresenter implements ExpiredContract.Presenter {
     private final ExpiredContract.View view;
 
     @NonNull
-    private CompositeSubscription subscriptions;
+    private CompositeSubscription compositeSubscriptions;
 
     public ExpiredPresenter(GroceriesRepository repository, ExpiredContract.View view) {
         this.repository = checkNotNull(repository);
         this.view = checkNotNull(view);
 
-        subscriptions = new CompositeSubscription();
+        compositeSubscriptions = new CompositeSubscription();
 
         this.view.setPresenter(this);
     }
@@ -36,7 +36,7 @@ public class ExpiredPresenter implements ExpiredContract.Presenter {
 
     @Override
     public void loadExpiredItems() {
-        subscriptions.clear();
+        compositeSubscriptions.clear();
         Subscription subscription = repository.getAlmostExpiredGroceriesList()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(groceriesItems -> {
@@ -46,12 +46,12 @@ public class ExpiredPresenter implements ExpiredContract.Presenter {
                         view.showEmpty();
                     }
                 }, view::showError);
-        subscriptions.add(subscription);
+        compositeSubscriptions.add(subscription);
     }
 
     @Override
     public void unSubscribe() {
-        subscriptions.clear();
+        compositeSubscriptions.clear();
     }
 
     @Override

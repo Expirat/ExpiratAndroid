@@ -49,7 +49,7 @@ public class GroceriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         GroceriesItem item = items.get(position);
 
         GroceryViewHolder viewHolder = (GroceryViewHolder) holder;
-        viewHolder.bind(item.name(), item.buyDate(), item.expiredDate());
+        viewHolder.bind(item.name(), item.typeName(), item.expiredDate());
 
         viewHolder.itemView.setOnClickListener(v -> {
             checkNotNull(clickListener);
@@ -75,10 +75,10 @@ public class GroceriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     public static class GroceryViewHolder extends BaseHolder {
 
         @Bind(R.id.name) TextView nameView;
-        @Bind(R.id.buy_date) TextView buyDateView;
         @Bind(R.id.expired_date) TextView expiredDateView;
         @Bind(R.id.date_diff) TextView dateDiffView;
         @Bind(R.id.more_action) ImageView moreActionView;
+        @Bind(R.id.label) TextView labelView;
 
         private int[] colorRange;
 
@@ -89,8 +89,10 @@ public class GroceriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             colorRange = itemView.getResources().getIntArray(R.array.color_range);
         }
 
-        public void bind(String name, long buyDate, long expiredDate) {
+        public void bind(String name, String typeName, long expiredDate) {
             nameView.setText(name);
+
+            labelView.setText(typeName);
 
             int dayDiff = DateUtils.dayDiff(expiredDate, (System.currentTimeMillis() / 1000L));
 
@@ -116,14 +118,6 @@ public class GroceriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     .dayLeftTextAppearance(itemView.getContext(), stringDiff));
 
             dateDiffView.setBackgroundColor(color);
-
-            String stringBuyDate = String.format(itemView.getResources()
-                    .getString(R.string.format_label_buy_date),
-                    StringUtils.getStringDate(buyDate));
-
-            buyDateView.setText(StringStyleUtils.dateTextAppearance(itemView.getContext(),
-                    stringBuyDate));
-
 
             String stringExpiredDate = String.format(itemView.getResources()
                     .getString(R.string.format_label_expired_date),

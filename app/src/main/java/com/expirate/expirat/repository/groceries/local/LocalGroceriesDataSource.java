@@ -68,7 +68,7 @@ public class LocalGroceriesDataSource implements GroceriesDataSource {
 
     private GroceriesItem getGroceriesList(Cursor cursor) {
         long id = cursor.getLong(cursor.getColumnIndexOrThrow(
-                GroceriesContract.Groceries._ID));
+                GroceriesContract.Groceries.TABLE_NAME + "." + GroceriesContract.Groceries._ID));
         String name = cursor.getString(cursor.getColumnIndexOrThrow(
                 GroceriesContract.Groceries.COLUMN_NAME_NAME));
         long buyDate = cursor.getLong(cursor.getColumnIndexOrThrow(
@@ -79,6 +79,8 @@ public class LocalGroceriesDataSource implements GroceriesDataSource {
                 GroceriesContract.Groceries.COLUMN_NAME_CREATED_DATE));
         long modifiedDate = cursor.getLong(cursor.getColumnIndexOrThrow(
                 GroceriesContract.Groceries.COLUMN_NAME_MODIFIED_DATE));
+        String typeName = cursor.getString(cursor.getColumnIndexOrThrow(
+                TypesContract.Types.COLUMN_NAME_TYPES_NAME));
         return GroceriesItem.builder()
                 .setId(id)
                 .setName(name)
@@ -86,31 +88,42 @@ public class LocalGroceriesDataSource implements GroceriesDataSource {
                 .setExpiredDate(expiredDate)
                 .setCreatedDate(createdDate)
                 .setModifiedDate(modifiedDate)
+                .setTypeName(typeName)
                 .build();
     }
 
     @Override
-    public Observable<List<GroceriesItem>> getGroceries(@Nullable Long id) {
+    public Observable<List<GroceriesItem>> getGroceries(@Nullable Long typeId) {
         String[] projections = {
-                GroceriesContract.Groceries._ID,
+                GroceriesContract.Groceries.TABLE_NAME + "." + GroceriesContract.Groceries._ID,
                 GroceriesContract.Groceries.COLUMN_NAME_NAME,
                 GroceriesContract.Groceries.COLUMN_NAME_BUY_DATE,
                 GroceriesContract.Groceries.COLUMN_NAME_EXPIRE_DATE,
                 GroceriesContract.Groceries.COLUMN_NAME_CREATED_DATE,
-                GroceriesContract.Groceries.COLUMN_NAME_MODIFIED_DATE
+                GroceriesContract.Groceries.COLUMN_NAME_MODIFIED_DATE,
+                TypesContract.Types.COLUMN_NAME_TYPES_NAME
         };
 
-        String query = String.format("SELECT %s FROM %s ORDER BY %s ASC",
+        String query = String.format("SELECT %s FROM %s JOIN %s ON %s = %s ORDER BY %s ASC",
                 TextUtils.join(", ", projections),
                 GroceriesContract.Groceries.TABLE_NAME,
+                TypesContract.Types.TABLE_NAME,
+                TypesContract.Types.TABLE_NAME + "." + TypesContract.Types._ID,
+                GroceriesContract.Groceries.TABLE_NAME + "."
+                        + GroceriesContract.Groceries.COLUMN_NAME_TYPE_ID,
                 GroceriesContract.Groceries.COLUMN_NAME_EXPIRE_DATE);
 
-        if (id != null) {
-            query = String.format("SELECT %s FROM %s WHERE %s = %o ORDER BY %s ASC",
+        if (typeId != null) {
+            query = String.format("SELECT %s FROM %s JOIN %s ON %s = %s "
+                    + "WHERE %s = %o ORDER BY %s ASC",
                     TextUtils.join(", ", projections),
                     GroceriesContract.Groceries.TABLE_NAME,
+                    TypesContract.Types.TABLE_NAME,
+                    TypesContract.Types.TABLE_NAME + "." + TypesContract.Types._ID,
+                    GroceriesContract.Groceries.TABLE_NAME + "."
+                            + GroceriesContract.Groceries.COLUMN_NAME_TYPE_ID,
                     GroceriesContract.Groceries.COLUMN_NAME_TYPE_ID,
-                    id,
+                    typeId,
                     GroceriesContract.Groceries.COLUMN_NAME_EXPIRE_DATE);
         }
 
@@ -155,18 +168,23 @@ public class LocalGroceriesDataSource implements GroceriesDataSource {
     @Override
     public Observable<GroceriesItem> getGrocery(long id) {
         String[] projections = {
-                GroceriesContract.Groceries._ID,
+                GroceriesContract.Groceries.TABLE_NAME + "." + GroceriesContract.Groceries._ID,
                 GroceriesContract.Groceries.COLUMN_NAME_NAME,
                 GroceriesContract.Groceries.COLUMN_NAME_BUY_DATE,
                 GroceriesContract.Groceries.COLUMN_NAME_EXPIRE_DATE,
                 GroceriesContract.Groceries.COLUMN_NAME_CREATED_DATE,
-                GroceriesContract.Groceries.COLUMN_NAME_MODIFIED_DATE
+                GroceriesContract.Groceries.COLUMN_NAME_MODIFIED_DATE,
+                TypesContract.Types.COLUMN_NAME_TYPES_NAME,
         };
 
-        String query = String.format("SELECT %s FROM %s WHERE %s = %o",
+        String query = String.format("SELECT %s FROM %s JOIN %s ON %s = %s WHERE %s = %o",
                 TextUtils.join(", ", projections),
                 GroceriesContract.Groceries.TABLE_NAME,
-                GroceriesContract.Groceries._ID,
+                TypesContract.Types.TABLE_NAME,
+                TypesContract.Types.TABLE_NAME + "." + TypesContract.Types._ID,
+                GroceriesContract.Groceries.TABLE_NAME + "."
+                        + GroceriesContract.Groceries.COLUMN_NAME_TYPE_ID,
+                GroceriesContract.Groceries.TABLE_NAME + "." + GroceriesContract.Groceries._ID,
                 id);
 
         return databaseHelper

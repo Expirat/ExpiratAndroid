@@ -30,6 +30,9 @@ public abstract class GroceriesItem {
     @Nullable
     public abstract Integer type();
 
+    @Nullable
+    public abstract String typeName();
+
     public static Builder builder() {
         return new AutoValue_GroceriesItem.Builder();
     }
@@ -51,6 +54,8 @@ public abstract class GroceriesItem {
         public abstract Builder setModifiedDate(long modifiedDate);
 
         public abstract Builder setType(Integer type);
+
+        public abstract Builder setTypeName(String typeName);
 
         public abstract GroceriesItem build();
     }

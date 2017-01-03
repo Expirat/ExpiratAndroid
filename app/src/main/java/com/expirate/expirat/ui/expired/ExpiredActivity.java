@@ -11,6 +11,7 @@ import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.expirate.expirat.R;
@@ -102,12 +103,9 @@ public class ExpiredActivity extends BaseActiviy implements ExpiredContract.View
     public void onItemMoreClickListener(long id, View view) {
         PopupMenu popupMenu = new PopupMenu(this, view);
         MenuInflater inflater = popupMenu.getMenuInflater();
-        inflater.inflate(R.menu.menu_pop_up, popupMenu.getMenu());
+        inflater.inflate(R.menu.menu_popup_expired, popupMenu.getMenu());
         popupMenu.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()) {
-                case R.id.action_edit:
-                    onItemClickListener(id);
-                    return true;
                 case R.id.action_delete:
                     confirmDelete(id);
                     return true;
@@ -127,5 +125,15 @@ public class ExpiredActivity extends BaseActiviy implements ExpiredContract.View
 
     public static Intent createIntent(Context context) {
         return new Intent(context, ExpiredActivity.class);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

@@ -9,7 +9,8 @@ public enum InjectorClass {
     private ApplicationGraph applicationGraph;
 
     public void initApplicationComponent(Application application) {
-        applicationGraph = DaggerApplicationComponent.create();
+        applicationGraph = DaggerApplicationComponent.builder()
+                .applicationModule(new ApplicationModule(application)).build();
     }
 
     public ApplicationGraph getApplicationGraph() {

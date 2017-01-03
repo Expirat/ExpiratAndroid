@@ -107,7 +107,7 @@ public class GroceriesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             int color;
 
             try {
-                color = colorRange[dayDiff / colorRange.length];
+                color = colorRange[dayDiff % colorRange.length];
             } catch (ArrayIndexOutOfBoundsException e) {
                 color = ContextCompat.getColor(itemView.getContext(), android.R.color.darker_gray);
                 stringDiff = "Expired";

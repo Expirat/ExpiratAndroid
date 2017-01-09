@@ -48,6 +48,9 @@ public class LocalGroceriesDataSource implements GroceriesDataSource {
     @NonNull
     private Func1<Cursor, TypesItem> taskMapperCursorToListTypes;
 
+    @NonNull
+    private Func1<Cursor, TypesItem> taskMapperCursotToItemType;
+
     private LocalGroceriesDataSource(Context context) {
         checkNotNull(context, "Context cannot be null");
 
@@ -57,6 +60,14 @@ public class LocalGroceriesDataSource implements GroceriesDataSource {
 
         taskMapperCursorToListGroceries = this::getGroceriesList;
         taskMapperCursorToListTypes = this::getTypesList;
+        taskMapperCursotToItemType = this::getTypeItem;
+    }
+
+    private TypesItem getTypeItem(Cursor cursor) {
+        long id = cursor.getLong(cursor.getColumnIndexOrThrow(TypesContract.Types._ID));
+        String typesName = cursor.getString(
+                cursor.getColumnIndexOrThrow(TypesContract.Types.COLUMN_NAME_TYPES_NAME));
+        return TypesItem.create(id, typesName, 0);
     }
 
     private TypesItem getTypesList(Cursor cursor) {
@@ -271,7 +282,7 @@ public class LocalGroceriesDataSource implements GroceriesDataSource {
 
         return databaseHelper
                 .createQuery(TypesContract.Types.TABLE_NAME, query)
-                .mapToOne(taskMapperCursorToListTypes);
+                .mapToOne(taskMapperCursotToItemType);
     }
 
 }

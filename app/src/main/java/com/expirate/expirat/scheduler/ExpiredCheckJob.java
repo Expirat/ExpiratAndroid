@@ -74,7 +74,7 @@ public class ExpiredCheckJob extends Job {
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(groceriesItems -> {
 
-                            if (groceriesItems.size() < 0) {
+                            if (groceriesItems.size() <= 0) {
                                 return;
                             }
 

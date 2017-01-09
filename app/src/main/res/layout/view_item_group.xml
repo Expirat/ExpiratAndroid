@@ -3,7 +3,7 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:orientation="vertical"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="16dp"
         android:paddingBottom="16dp"
@@ -11,7 +11,7 @@
         android:paddingRight="12dp">
 
     <RelativeLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp">
 
@@ -20,6 +20,7 @@
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 tools:src="@android:color/black"
+                android:layout_centerInParent="true"
                 android:contentDescription="@string/content_desc_icon"/>
 
         <TextView
@@ -32,6 +33,19 @@
                 android:textColor="@android:color/white"
                 android:textSize="32sp"
                 android:fontFamily="sans-serif-light"/>
+
+        <TextView
+                android:id="@+id/count_item_info"
+                android:layout_alignRight="@id/icon"
+                android:layout_alignEnd="@id/icon"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:textColor="@android:color/white"
+                android:padding="4dp"
+                android:gravity="center"
+                android:textSize="12sp"
+                android:background="@drawable/circle_bg"
+                tools:text="0"/>
     </RelativeLayout>
 
     <TextView

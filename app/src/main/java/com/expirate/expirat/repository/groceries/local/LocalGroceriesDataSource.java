@@ -63,7 +63,8 @@ public class LocalGroceriesDataSource implements GroceriesDataSource {
         long id = cursor.getLong(cursor.getColumnIndexOrThrow(TypesContract.Types._ID));
         String typesName = cursor.getString(
                 cursor.getColumnIndexOrThrow(TypesContract.Types.COLUMN_NAME_TYPES_NAME));
-        return TypesItem.create(id, typesName);
+        int itemCount = cursor.getInt(cursor.getColumnIndexOrThrow("item_count"));
+        return TypesItem.create(id, typesName, itemCount);
     }
 
     private GroceriesItem getGroceriesList(Cursor cursor) {
@@ -231,14 +232,14 @@ public class LocalGroceriesDataSource implements GroceriesDataSource {
 
     @Override
     public Observable<List<TypesItem>> getTypes() {
-        String[] projections = {
-                TypesContract.Types._ID,
-                TypesContract.Types.COLUMN_NAME_TYPES_NAME
-        };
 
-        String query = String.format("SELECT %s FROM %s",
-                TextUtils.join(", ", projections),
-                TypesContract.Types.TABLE_NAME);
+        String query = " SELECT tb._id, tb.types_name, "
+                + "CASE WHEN gti.item_count <> 0 THEN gti.item_count ELSE 0 END as item_count "
+                + "FROM types_table tb "
+                + "LEFT JOIN ("
+                + "SELECT COUNT(_id) as item_count, type_id FROM groceries_table GROUP BY type_id) "
+                + "AS gti "
+                + "ON gti.type_id = tb._id";
 
         return databaseHelper
                 .createQuery(TypesContract.Types.TABLE_NAME, query)

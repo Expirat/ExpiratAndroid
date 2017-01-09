@@ -3,7 +3,8 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        xmlns:app="http://schemas.android.com/apk/res-auto">
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
 
     <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"
@@ -22,5 +23,13 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+
+    <TextView
+            android:id="@+id/label_version"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center_horizontal"
+            android:padding="8dp"
+            tools:text="versi 2.0.1"/>
 
 </android.support.design.widget.CoordinatorLayout>

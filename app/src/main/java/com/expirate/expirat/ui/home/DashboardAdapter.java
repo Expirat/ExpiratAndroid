@@ -185,6 +185,7 @@ public class DashboardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 @Bind(R.id.icon) ImageView iconView;
                 @Bind(R.id.initial_label) TextView initialView;
                 @Bind(R.id.label) TextView labelView;
+                @Bind(R.id.count_item_info) TextView countItemView;
 
                 public GridItemViewHolder(ViewGroup parent) {
                     super(R.layout.view_item_group, parent);
@@ -199,6 +200,8 @@ public class DashboardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     initialView.setText(StringUtils.getFirstCharacterEachWord(item.typesName()));
 
                     iconView.setImageDrawable(new ColorDrawable(color));
+
+                    countItemView.setText(String.valueOf(item.itemCount()));
                 }
             }
         }

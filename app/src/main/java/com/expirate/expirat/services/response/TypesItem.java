@@ -12,7 +12,9 @@ public abstract class TypesItem {
 
     public abstract String typesName();
 
-    public static TypesItem create(long id, String typesName) {
-        return new AutoValue_TypesItem(id, typesName);
+    public abstract int itemCount();
+
+    public static TypesItem create(long id, String typesName, int itemCount) {
+        return new AutoValue_TypesItem(id, typesName, itemCount);
     }
 }

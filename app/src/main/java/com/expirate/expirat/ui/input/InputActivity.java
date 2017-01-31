@@ -90,6 +90,12 @@ public class InputActivity extends BaseActiviy implements InputContract.View,
             String expiredDate = inputExpiredDate.getText().toString();
             long typeId = getIntent().getLongExtra(Constant.EXTRA_TYPE_ID, -1);
 
+            tracker.send(new HitBuilders.EventBuilder()
+                    .setCategory("Input")
+                    .setAction("Save")
+                    .setLabel(productName)
+                    .build());
+
             presenter.saveGrocery(productName, typeId, expiredDate);
         });
 

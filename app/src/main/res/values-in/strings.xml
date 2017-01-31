@@ -24,4 +24,6 @@
     <string name="msg_notification">%d barang mendekati tanggal kadaluarsa. Mohon periksa sekarang!</string>
 
     <string name="label_version">Versi %s</string>
+    <string name="action_new_group">Tambah grup</string>
+    <string name="hint_group_name">Nama Grup</string>
 </resources>

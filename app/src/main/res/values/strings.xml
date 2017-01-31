@@ -31,5 +31,7 @@
 
     <string name="label_version">Version %s</string>
     <string name="header_groups">Groups</string>
+    <string name="action_new_group">New group</string>
+    <string name="hint_group_name">Group Name</string>
 
 </resources>

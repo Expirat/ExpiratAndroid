@@ -16,5 +16,6 @@ public interface DashboardContract {
 
     public interface Presenter extends BasePresenter {
 
+        void addedNewGroup(String value);
     }
 }

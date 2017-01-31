@@ -29,4 +29,9 @@
     <string name="content_desc_icon" translatable="false">Icon</string>
     <string name="msg_notification">%d items is almost expired. Please check it now!</string>
 
+    <string name="label_version">Version %s</string>
+    <string name="header_groups">Groups</string>
+    <string name="action_new_group">New group</string>
+    <string name="hint_group_name">Group Name</string>
+
 </resources>

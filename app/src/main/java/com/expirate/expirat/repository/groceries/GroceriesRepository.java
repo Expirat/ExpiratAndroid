@@ -75,4 +75,9 @@ public class GroceriesRepository implements GroceriesDataSource {
     public Observable<TypesItem> getTypeInfo(long id) {
         return localGroceriesDataSource.getTypeInfo(id).subscribeOn(Schedulers.io());
     }
+
+    @Override
+    public void addNewGroup(String value) {
+        localGroceriesDataSource.addNewGroup(value);
+    }
 }

@@ -31,5 +31,9 @@ public class GroceriesDBHelper extends SQLiteOpenHelper {
             db.execSQL(TypesContract.Types.INSERT_DEFAULT_QUERY);
         }
 
+        if (newVersion == 3) {
+            db.execSQL(TypesContract.Types.INSERT_MEDICINE_TYPE);
+        }
+
     }
 }

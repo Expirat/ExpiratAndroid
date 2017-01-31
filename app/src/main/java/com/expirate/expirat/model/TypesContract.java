@@ -31,5 +31,11 @@ public class TypesContract {
                         + "('Groceries')" + COMMA_SEPARATED
                         + "('Documents')" + COMMA_SEPARATED
                         + "('Cosmetics')";
+
+        public static final String INSERT_MEDICINE_TYPE =
+                "INSERT INTO " + TABLE_NAME
+                        + "(" + COLUMN_NAME_TYPES_NAME + ")"
+                        + " VALUES "
+                        + "('Medicines')";
     }
 }

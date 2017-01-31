@@ -285,4 +285,11 @@ public class LocalGroceriesDataSource implements GroceriesDataSource {
                 .mapToOne(taskMapperCursotToItemType);
     }
 
+    @Override
+    public void addNewGroup(String value) {
+        ContentValues values = new ContentValues();
+        values.put(TypesContract.Types.COLUMN_NAME_TYPES_NAME, value);
+        databaseHelper.insert(TypesContract.Types.TABLE_NAME, values);
+    }
+
 }

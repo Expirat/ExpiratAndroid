@@ -3,7 +3,9 @@
     <color name="colorPrimary">#9575CD</color>
     <color name="colorPrimaryDark">#6545B7</color>
     <color name="colorAccent">#2196F3</color>
+    <color name="colorAccentDark">#135A91</color>
     <color name="black">#000000</color>
+    <color name="gray">#eeeeee</color>
 
     <color name="green500">#4CAF50</color>
     <color name="lime500">#CDDC39</color>

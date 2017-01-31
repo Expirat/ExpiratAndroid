@@ -78,6 +78,7 @@ public class DashboardActivity extends BaseActiviy implements DashboardContract.
 
         adapter = new DashboardAdapter(this);
         recyclerView.setAdapter(adapter);
+        recyclerView.setNestedScrollingEnabled(false);
 
         labelView.setText(String.format(Locale.getDefault(),
                 getString(R.string.label_version),
@@ -173,5 +174,6 @@ public class DashboardActivity extends BaseActiviy implements DashboardContract.
                 .build());
 
         presenter.addedNewGroup(value);
+        presenter.subscribe();
     }
 }

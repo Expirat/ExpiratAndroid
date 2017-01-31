@@ -77,7 +77,7 @@ public class DashboardActivity extends BaseActiviy implements DashboardContract.
         recyclerView.setAdapter(adapter);
 
         labelView.setText(String.format(Locale.getDefault(),
-                "versi %s",
+                getString(R.string.label_version),
                 BuildConfig.VERSION_NAME));
     }
 

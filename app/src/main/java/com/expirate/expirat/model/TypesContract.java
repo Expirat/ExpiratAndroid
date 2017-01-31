@@ -36,6 +36,6 @@ public class TypesContract {
                 "INSERT INTO " + TABLE_NAME
                         + "(" + COLUMN_NAME_TYPES_NAME + ")"
                         + " VALUES "
-                        + "('Medicine')";
+                        + "('Medicines')";
     }
 }

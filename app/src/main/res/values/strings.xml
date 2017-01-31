@@ -29,4 +29,7 @@
     <string name="content_desc_icon" translatable="false">Icon</string>
     <string name="msg_notification">%d items is almost expired. Please check it now!</string>
 
+    <string name="label_version">Version %s</string>
+    <string name="header_groups">Groups</string>
+
 </resources>

@@ -1,5 +1,6 @@
 package com.expirate.expirat.ui.widget;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
@@ -8,6 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -25,6 +28,7 @@ public class DialogNewGroup extends DialogFragment {
     @Bind(R.id.btn_save) TextView btnSave;
 
     private DialogInputListener inputListener;
+    private InputMethodManager imm;
 
     public static DialogNewGroup newInstance() {
         return new DialogNewGroup();
@@ -35,9 +39,16 @@ public class DialogNewGroup extends DialogFragment {
     }
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
         getDialog().getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
     }
 
     @Nullable
@@ -53,12 +64,16 @@ public class DialogNewGroup extends DialogFragment {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
 
+        imm.showSoftInput(groupInput, InputMethodManager.SHOW_IMPLICIT);
+
         RxTextView.textChanges(groupInput)
                 .map(charSequence -> charSequence.length() > 0)
                 .subscribe(enabled -> { btnSave.setEnabled(enabled); },
                         throwable -> { /* DO NOTHING */ });
 
         btnSave.setOnClickListener(v -> {
+            imm.hideSoftInputFromWindow(groupInput.getWindowToken(), 0);
+
             dismiss();
 
             if (inputListener == null) return;

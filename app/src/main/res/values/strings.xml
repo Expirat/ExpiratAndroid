@@ -33,5 +33,6 @@
     <string name="header_groups">Groups</string>
     <string name="action_new_group">New group</string>
     <string name="hint_group_name">Group Name</string>
+    <string name="title_manage_groups">Manage Groups</string>
 
 </resources>

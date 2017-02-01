@@ -292,4 +292,21 @@ public class LocalGroceriesDataSource implements GroceriesDataSource {
         databaseHelper.insert(TypesContract.Types.TABLE_NAME, values);
     }
 
+    @Override
+    public void deleteGroup(long id) {
+        // delete type with id
+        String whereType = TypesContract.Types._ID + "=?";
+        String[] whereTypeArgs = new String[] {
+                String.valueOf(id)
+        };
+        databaseHelper.delete(TypesContract.Types.TABLE_NAME, whereType, whereTypeArgs);
+
+        // delete all item in this type id
+        String whereItem = GroceriesContract.Groceries.COLUMN_NAME_TYPE_ID + "=?";
+        String[] whereItemArgs = new String[] {
+                String.valueOf(id)
+        };
+        databaseHelper.delete(GroceriesContract.Groceries.TABLE_NAME, whereItem, whereItemArgs);
+    }
+
 }

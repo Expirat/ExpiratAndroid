@@ -27,4 +27,5 @@
     <string name="action_new_group">Tambah grup</string>
     <string name="hint_group_name">Nama Grup</string>
     <string name="header_groups">Daftar Grup</string>
+    <string name="title_manage_groups">Atur Grup</string>
 </resources>

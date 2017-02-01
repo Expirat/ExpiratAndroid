@@ -10,8 +10,6 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.expirate.expirat.BuildConfig;
@@ -24,7 +22,7 @@ import com.expirate.expirat.services.response.Dashboards;
 import com.expirate.expirat.ui.BaseActiviy;
 import com.expirate.expirat.ui.expired.ExpiredActivity;
 import com.expirate.expirat.ui.group.GroupActivity;
-import com.expirate.expirat.ui.widget.DialogNewGroup;
+import com.expirate.expirat.ui.managegroups.ManageGroupsActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +34,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class DashboardActivity extends BaseActiviy implements DashboardContract.View,
-        DashboardAdapter.DashboardClickListener, DialogNewGroup.DialogInputListener {
+        DashboardAdapter.DashboardClickListener {
 
     @Bind(R.id.toolbar) Toolbar toolbar;
     @Bind(R.id.recyclerview) RecyclerView recyclerView;
@@ -83,6 +81,11 @@ public class DashboardActivity extends BaseActiviy implements DashboardContract.
         labelView.setText(String.format(Locale.getDefault(),
                 getString(R.string.label_version),
                 BuildConfig.VERSION_NAME));
+
+    }
+
+    private void openManageGroup() {
+        startActivity(ManageGroupsActivity.createIntent(this));
     }
 
     @Override
@@ -144,36 +147,7 @@ public class DashboardActivity extends BaseActiviy implements DashboardContract.
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_dashboard, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_add:
-                dialogNewItemGroup();
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    private void dialogNewItemGroup() {
-        DialogNewGroup newGroup = DialogNewGroup.newInstance();
-        newGroup.setInputListener(this);
-        newGroup.show(getSupportFragmentManager(), "dialog_new_group");
-    }
-
-    @Override
-    public void onSave(String value) {
-        tracker.send(new HitBuilders.EventBuilder()
-                .setCategory("Dashboard")
-                .setAction("New Group")
-                .setLabel(value)
-                .build());
-
-        presenter.addedNewGroup(value);
-        presenter.subscribe();
+    public void onBtnSettingClick() {
+        openManageGroup();
     }
 }

@@ -67,4 +67,9 @@ public class RemoteGroceriesData implements GroceriesDataSource {
     public void addNewGroup(String value) {
         // Do nothing
     }
+
+    @Override
+    public void deleteGroup(long id) {
+        // Do nothing
+    }
 }

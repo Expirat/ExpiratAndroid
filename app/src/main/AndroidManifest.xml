@@ -66,6 +66,9 @@
         <activity android:name=".ui.expired.ExpiredActivity"
                   android:screenOrientation="portrait" />
 
+        <activity android:name=".ui.managegroups.ManageGroupsActivity"
+                  android:screenOrientation="portrait" />
+
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="bd42c2ee6d56c610c407ff4e6680f54d54537400" />

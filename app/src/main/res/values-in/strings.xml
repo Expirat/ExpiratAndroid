@@ -31,4 +31,5 @@
     <string name="delete_message">Grup ini akan dihapus, dan semua barang didalam group ini juga akan dihapus. Apakah anda ingin menghapus grup ini?</string>
     <string name="btn_delete">Hapus</string>
     <string name="btn_cancel">Tidak</string>
+    <string name="message_empty_expire_list">Semua barang dalam kondisi baik.</string>
 </resources>

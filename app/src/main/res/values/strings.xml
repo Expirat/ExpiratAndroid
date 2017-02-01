@@ -22,6 +22,7 @@
     <string name="format_label_expired_date">Expired Date\n%s</string>
     <string name="image_description_empty_list" translatable="false">Image empty list</string>
     <string name="message_empty_list">You don\'t have any items.\nAdd new one here.</string>
+    <string name="message_empty_expire_list">Everything is good.</string>
     <string name="title_action_delete" translatable="false">Delete</string>
     <string name="image_description_action_more" translatable="false">Action more</string>
     <string name="label_expired_items">Expired Items</string>

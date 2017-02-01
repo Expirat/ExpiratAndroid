@@ -1,10 +1,10 @@
 package com.expirate.expirat.ui.home;
 
-import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -86,6 +86,11 @@ public class DashboardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
             TypeInfoViewHolder viewHolder = (TypeInfoViewHolder) holder;
             viewHolder.bind(typesInfo);
+            viewHolder.btnSetting.setOnClickListener(v -> {
+                if (listener == null) return;
+
+                listener.onBtnSettingClick();
+            });
         }
     }
 
@@ -118,6 +123,8 @@ public class DashboardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     public static class TypeInfoViewHolder extends BaseHolder {
 
         @Bind(R.id.recyclerview) RecyclerView recyclerView;
+        @Bind(R.id.btn_setting) FrameLayout btnSetting;
+
         private DashboardClickListener listener;
 
         public TypeInfoViewHolder(ViewGroup parent, DashboardClickListener listener) {
@@ -134,7 +141,7 @@ public class DashboardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         }
 
         public void bind(TypesInfo typesInfo) {
-            GridAdapter gridAdapter = new GridAdapter(itemView.getContext(), listener);
+            GridAdapter gridAdapter = new GridAdapter(listener);
             recyclerView.setAdapter(gridAdapter);
 
             gridAdapter.setTypes(typesInfo.types());
@@ -144,12 +151,10 @@ public class DashboardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
             private List<TypesItem> types = new ArrayList<>();
 
-            private int[] groupsColors;
 
             private DashboardClickListener listener;
 
-            public GridAdapter(Context context, DashboardClickListener listener) {
-                groupsColors = context.getResources().getIntArray(R.array.group_colors);
+            public GridAdapter(DashboardClickListener listener) {
                 this.listener = listener;
             }
 
@@ -212,5 +217,7 @@ public class DashboardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         void onItemInfoClick();
 
         void onItemGroupClick(long id);
+
+        void onBtnSettingClick();
     }
 }

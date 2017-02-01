@@ -80,4 +80,9 @@ public class GroceriesRepository implements GroceriesDataSource {
     public void addNewGroup(String value) {
         localGroceriesDataSource.addNewGroup(value);
     }
+
+    @Override
+    public void deleteGroup(long id) {
+        localGroceriesDataSource.deleteGroup(id);
+    }
 }

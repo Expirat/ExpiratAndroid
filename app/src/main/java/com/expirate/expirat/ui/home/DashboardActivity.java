@@ -10,9 +10,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.widget.TextView;
 
-import com.expirate.expirat.BuildConfig;
 import com.expirate.expirat.InjectorClass;
 import com.expirate.expirat.R;
 import com.expirate.expirat.repository.groceries.GroceriesRepository;
@@ -26,7 +24,6 @@ import com.expirate.expirat.ui.managegroups.ManageGroupsActivity;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import javax.inject.Inject;
 
@@ -38,7 +35,6 @@ public class DashboardActivity extends BaseActiviy implements DashboardContract.
 
     @Bind(R.id.toolbar) Toolbar toolbar;
     @Bind(R.id.recyclerview) RecyclerView recyclerView;
-    @Bind(R.id.label_version) TextView labelView;
 
     @Inject Tracker tracker;
 
@@ -78,9 +74,6 @@ public class DashboardActivity extends BaseActiviy implements DashboardContract.
         recyclerView.setAdapter(adapter);
         recyclerView.setNestedScrollingEnabled(false);
 
-        labelView.setText(String.format(Locale.getDefault(),
-                getString(R.string.label_version),
-                BuildConfig.VERSION_NAME));
 
     }
 

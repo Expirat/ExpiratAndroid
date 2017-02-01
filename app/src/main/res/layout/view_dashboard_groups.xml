@@ -4,16 +4,56 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        app:cardUseCompatPadding="true"
         app:cardElevation="2dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginBottom="8dp">
+        android:layout_marginTop="8dp">
 
-    <android.support.v7.widget.RecyclerView
-            android:id="@+id/recyclerview"
+    <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+        <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:fontFamily="sans-serif-medium"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:text="@string/header_groups"/>
+
+            <FrameLayout
+                    android:id="@+id/btn_setting"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true">
+
+                    <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            app:srcCompat="@drawable/ic_settings"
+                            android:contentDescription="@null"/>
+            </FrameLayout>
+        </RelativeLayout>
+
+        <View
+                android:layout_width="match_parent"
+                android:layout_height="0.3dp"
+                android:background="@color/mdtp_light_gray"
+                android:layout_marginBottom="8dp"/>
+
+        <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"/>
+    </LinearLayout>
 
 </android.support.v7.widget.CardView>

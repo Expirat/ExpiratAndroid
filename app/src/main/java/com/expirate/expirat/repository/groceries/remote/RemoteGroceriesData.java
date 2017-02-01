@@ -62,4 +62,14 @@ public class RemoteGroceriesData implements GroceriesDataSource {
     public Observable<TypesItem> getTypeInfo(long id) {
         return null;
     }
+
+    @Override
+    public void addNewGroup(String value) {
+        // Do nothing
+    }
+
+    @Override
+    public void deleteGroup(long id) {
+        // Do nothing
+    }
 }

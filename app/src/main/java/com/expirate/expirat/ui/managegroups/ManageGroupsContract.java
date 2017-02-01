@@ -1,20 +1,23 @@
-package com.expirate.expirat.ui.home;
+package com.expirate.expirat.ui.managegroups;
 
 
-import com.expirate.expirat.services.response.Dashboards;
+import com.expirate.expirat.services.response.TypesItem;
 import com.expirate.expirat.ui.BasePresenter;
 import com.expirate.expirat.ui.BaseView;
 
-public interface DashboardContract {
+import java.util.List;
+
+public interface ManageGroupsContract {
 
     public interface View extends BaseView<Presenter> {
 
-        void showError(Throwable throwable);
+        void showListGroups(List<TypesItem> typesItems);
 
-        void showDashboardInfo(Dashboards dashboardInfo);
     }
 
     public interface Presenter extends BasePresenter {
+
+        void deleteGroup(long id);
 
         void addedNewGroup(String value);
     }

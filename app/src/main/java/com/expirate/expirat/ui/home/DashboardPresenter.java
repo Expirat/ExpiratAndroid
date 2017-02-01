@@ -49,4 +49,9 @@ public class DashboardPresenter implements DashboardContract.Presenter {
     public void unSubscribe() {
         compositeSubscription.clear();
     }
+
+    @Override
+    public void addedNewGroup(String value) {
+        groceriesRepository.addNewGroup(value);
+    }
 }

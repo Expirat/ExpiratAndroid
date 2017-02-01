@@ -31,4 +31,8 @@ public interface GroceriesDataSource {
     Observable<Dashboards> getDashboadInfo();
 
     Observable<TypesItem> getTypeInfo(long id);
+
+    void addNewGroup(String value);
+
+    void deleteGroup(long id);
 }

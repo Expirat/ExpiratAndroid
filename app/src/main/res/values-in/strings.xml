@@ -22,4 +22,14 @@
     <string name="message_empty_list">Anda belum memiliki daftar barang.\nTekan tombol \'+\' untuk menambahkan.</string>
     <string name="label_expired_items">Daftar Kadaluarsa</string>
     <string name="msg_notification">%d barang mendekati tanggal kadaluarsa. Mohon periksa sekarang!</string>
+
+    <string name="label_version">Versi %s</string>
+    <string name="action_new_group">Tambah grup</string>
+    <string name="hint_group_name">Nama Grup</string>
+    <string name="header_groups">Daftar Grup</string>
+    <string name="title_manage_groups">Atur Grup</string>
+    <string name="delete_message">Grup ini akan dihapus, dan semua barang didalam group ini juga akan dihapus. Apakah anda ingin menghapus grup ini?</string>
+    <string name="btn_delete">Hapus</string>
+    <string name="btn_cancel">Tidak</string>
+    <string name="message_empty_expire_list">Semua barang dalam kondisi baik.</string>
 </resources>

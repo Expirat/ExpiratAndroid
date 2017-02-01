@@ -24,7 +24,7 @@ import com.expirate.expirat.repository.groceries.local.LocalGroceriesDataSource;
 import com.expirate.expirat.services.response.GroceriesItem;
 import com.expirate.expirat.ui.BaseActiviy;
 import com.expirate.expirat.ui.group.GroceriesAdapter;
-import com.expirate.expirat.ui.widget.EmptyView;
+import com.expirate.expirat.ui.widget.EmptyExpireView;
 
 import java.util.List;
 
@@ -39,7 +39,7 @@ public class ExpiredActivity extends BaseActiviy implements ExpiredContract.View
 
     @Bind(R.id.toolbar) Toolbar toolbar;
     @Bind(R.id.recyclerview) RecyclerView recyclerView;
-    @Bind(R.id.empty_view) EmptyView emptyView;
+    @Bind(R.id.empty_view) EmptyExpireView emptyView;
 
     @Inject Tracker tracker;
 
